@@ -93,6 +93,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 Route::get('/grettings', function () {
     var_dump("Hello Good Evening Masum Bhai");
     die;

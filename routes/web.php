@@ -17,8 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/mohosin', function () {
     var_dump("Hello Bangladesh");
     die;
-   
 });
+
 Route::get('/', function () {
     var_dump("Hello MOHOSIN");
     die("I am Here");
