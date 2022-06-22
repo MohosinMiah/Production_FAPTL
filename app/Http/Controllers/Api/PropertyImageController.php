@@ -52,63 +52,39 @@ class PropertyImageController extends ApiController
     public function store(Request $request)
     {
 
-        // $allowedfileExtension=['pdf','jpg','png'];
-        // $files = $request->file('file_name'); 
-
-     
-            // $check = in_array($extension,$allowedfileExtension);
-    //  return $request->file('file_name');
-            // if($check) {
-
-                // foreach( $request->file('file_name') as $mediaFiles ) 
-                // {
-                $propertyImage = $request->file('file_name');
-                $imagePath = '/images/'. time().'.'.$propertyImage->extension();
-                $propertyImage->move(public_path().'/images/', $name); 
-
-                    // $this->generalSettingRepository->update($data, $data['id']);
-        
-          
-                    //store image file into directory and db
-                    $data = $request->all();
-                    $data['file_name'] = $imagePath;
-                    $newProperty = $this->propertImageRepository->create($data);
-                    
-                  
-                // }
-
-            // } else {
-            //     return $this->respondNotSaved('Sorry !! Property Image has not created.');
-            // }
-     
-            return $this->respondWithSuccess('Success !! Property Image has been created.');
-     
-        
-
-
-        // $save = $this->propertImageRepository->create($request->all());
-
-        // if (!is_null($save) && $save['error']) {
-        //     return $this->respondNotSaved($save['message']);
-        // } else {
-        //     return $this->respondWithSuccess('Success !! Account has been created.');
-
-        // }
-
+		if($request->hasfile('file_name'))
+		{
+			foreach($request->file('file_name') as $image)
+			{
+				$imageName=time().'_'.$image->getClientOriginalName();
+				$image->move(public_path().'/images/', $imageName);  
+				$data = $request->all();
+				$data['file_name']  = $imageName;
+				$data['isActive'] = 1;
+				$data['isFeatured'] = 0;
+				$newProperty = $this->propertImageRepository->create($data);
+			}
+			return $this->respondWithSuccess('Success !! Property Image has been created.');
+		}
+		else
+		{
+		return $this->respondNotSaved( 'Error !! Property Image has Not  created.' );
+		}
     }
 
     /**
      * @param $uuid
      * @return mixed
      */
-    public function show($uuid)
+    public function show( $uuid )
     {
-        $account = $this->propertImageRepository->getById($uuid);
+        $image = $this->propertImageRepository->getById( $uuid );
 
-        if (!$account) {
-            return $this->respondNotFound('Account not found.');
+        if( !$image )
+		{
+            return $this->respondNotFound('Property Image not found.');
         }
-        return $this->respondWithData(new PropertyImageResource($account));
+        return $this->respondWithData(new PropertyImageResource( $image ) );
 
     }
 
@@ -119,15 +95,46 @@ class PropertyImageController extends ApiController
      */
     public function update(PropertyImageRequest $request, $uuid)
     {
-        $save = $this->propertImageRepository->update($request->all(), $uuid);
+		return $request->all();
 
-        if (!is_null($save) && $save['error']) {
-            return $this->respondNotSaved($save['message']);
-        } else
+		$save = $this->propertImageRepository->update($request->all(), $uuid);
 
-            return $this->respondWithSuccess('Success !! Account has been updated.');
+	
 
     }
+
+
+	public function updatePropertyImage( Request $request, $uuid )
+	{
+		
+
+		if($request->hasfile('file_name'))
+		{
+			foreach($request->file('file_name') as $image)
+			{
+				$imageName=time().'_'.$image->getClientOriginalName();
+				$image->move(public_path().'/images/', $imageName);  
+				$data = $request->all();
+				$data['file_name']  = $imageName;
+				$newProperty = $this->propertImageRepository->create($data);
+			}
+			return $this->respondWithSuccess('Success !! Property Image has been Updated.');
+		}
+		else
+		{
+		  $save = $this->propertImageRepository->update( $request->all(), $uuid );
+		  
+			if (!is_null($save) && $save['error'])
+			{
+				return $this->respondNotSaved($save['message']);
+			} 
+			else
+			{
+				return $this->respondWithSuccess('Success !! Property Image has been updated.');
+			}
+            
+		}
+	}
 
     /**
      * @param $uuid
@@ -135,92 +142,12 @@ class PropertyImageController extends ApiController
      */
     public function destroy($uuid)
     {
-        return $this->respondNotFound('Account not deleted');
-    }
-
-    /**
-     * Fetch statement given a $loanId
-     * @param Request $request
-     * @return mixed
-     */
-    public function leaseAccountStatement(Request $request) {
-        $data = $request->all();
-        $leaseID = $data['id'];
-        if(isset($data['pdf'])){
-            $request['type'] = 'lease';
-            return $this->downloadAccountStatement($request);
+		if ($this->propertImageRepository->delete($uuid)) {
+            return $this->respondWithSuccess('Success !! Property Image has been deleted');
         }
-        $account = Account::where('lease_id', $leaseID)
-            ->where('account_name', LEASE_ACCOUNT)
-            ->first();
-        if (isset($account))
-            $account['statement'] = $this->propertImageRepository->fetchAccountStatement($account->id);
-        return $this->respondWithData(new PropertyImageResource($account));
+        return $this->respondNotFound('Property Image not deleted');
+
     }
 
-    /**
-     * @param Request $request
-     * @return mixed|null
-     */
-    private function downloadAccountStatement(Request $request) {
-        $account = $this->getAccount($request->all());
-        $settings = GeneralSetting::first();
-        $leaseSettings = LeaseSetting::first();
-        $file_path = $settings->logo;
-        $local_path = '';
-        if($file_path != '')
-            $local_path = config('filesystems.disks.local.root') . DIRECTORY_SEPARATOR .'logos'.DIRECTORY_SEPARATOR. $file_path;
-        $settings->logo_url = $local_path;
-        $settings->invoice_footer = $leaseSettings->invoice_footer;
-
-        if (isset($account)){
-            $lease = [];
-            if (isset($account->lease_id)) {
-                $lease =  Lease::with('tenants', 'property', 'units')->find($account->lease_id);
-            }
-
-            $rawStatement = $this->propertImageRepository->fetchAccountStatement($account->id);
-            $account['statement'] =  $rawStatement;
-           // $pageData = PropertyImageResource::make($account)->toArray($request);
-            $pageData = PropertyImageResource::make($account)->resolve();
-            $pdf = PDF::loadView('reports.account-statement', compact('pageData', 'settings', 'lease'));
-           // return view('reports.account-statement', compact('pageData', 'setting'));
-            return $pdf->download('statement.pdf');
-        }
-        return null;
-    }
-
-    /**
-     * Special cases for member deposit and loan accounts as compared to other accounts
-     * @param $data
-     * @return mixed
-     */
-    private function getAccount($data) {
-        switch ($data['type']){
-            case  'lease' :
-                return Account::where('lease_id', $data['id'])->where('account_type', LEASE_ACCOUNT)
-                    ->first();
-                break;
-            default :
-                return $this->propertImageRepository->getById($data['id']);
-                break;
-        }
-    }
-
-    /**
-     * @param Request $request
-     * @return mixed|null
-     */
-    public function generalAccountStatement(Request $request) {
-        $data = $request->all();
-        $uuid = $data['id'];
-        if(isset($data['pdf']) && $data['pdf'] == true){
-            $request['type'] = 'general';
-            return $this->downloadAccountStatement($request);
-        }
-        $account = $this->propertImageRepository->getById($uuid);
-        if (isset($account))
-            $account['statement'] = $this->propertImageRepository->fetchAccountStatement($account->id);
-        return $this->respondWithData(new PropertyImageResource($account));
-    }
+    
 }

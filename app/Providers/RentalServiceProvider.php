@@ -45,7 +45,6 @@ class RentalServiceProvider extends ServiceProvider
         'PaymentFrequency',
         'PaymentMethod',
         'PropertyCategory',
-        'Property',
         'PropertyType',
         'Task',
         'TaskCategory',
@@ -72,7 +71,9 @@ class RentalServiceProvider extends ServiceProvider
         'Period',
         'LateFee',
         'Waiver',
-        'PropertyImage'
+        'Property',
+        'PropertyImage',
+        'PropertyUnit'
     ];
 
     /**

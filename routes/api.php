@@ -175,19 +175,6 @@ Route::prefix('v1')->middleware(['auth:api,landlords,tenants', 'throttle:60,1'])
     Route::get('units/vacants', [UnitController::class, 'vacantUnits']);
 
 
- // *******************************  Start  : MOHOSIN : PROPERTIES ************************************************* START
- Route::apiResource('properties', PropertyController::class)->middleware(['scope:view-property,create-property,edit-property,delete-property']);
- Route::POST('properties/{id}', [PropertyController::class,'updateProperty'])->middleware(['scope:view-property,create-property,edit-property,delete-property']);
-
-// *******************************   END  : MOHOSIN : PROPERTIES ********************************************************** END
-
-
- // *******************************  Start  : MOHOSIN : PROPERTYIMAGE ************************************************* START
- Route::apiResource('propertyimages', PropertyImageController::class)->middleware(['scope:view-property,create-property,edit-property,delete-property']);
- Route::POST('propertyimages/{id}', [PropertyImageController::class,'update'])->middleware(['scope:view-property,create-property,edit-property,delete-property']);
-
-    // *******************************   END  : MOHOSIN : PROPERTYIMAGE ********************************************************** END
-
     Route::apiResource('properties.leases', PropertyLeasesController::class)->shallow();
     Route::apiResource('properties.tenants', PropertyTenantsController::class)->shallow();
     Route::apiResource('properties.invoices', PropertyInvoicesController::class)->shallow();
@@ -301,7 +288,33 @@ Route::prefix('v1')->middleware(['auth:api,landlords,tenants', 'throttle:60,1'])
     Route::get('lease_support_data', [LeaseAggregateController::class, 'leaseData']);
     Route::get('property_support_data', [PropertyAggregateController::class, 'propertyData']);
 
-   
+
+
+
+ // *******************************  Start  : MOHOSIN : PROPERTIES ************************************************* START
+ Route::apiResource('properties', PropertyController::class)->middleware(['scope:view-property,create-property,edit-property,delete-property']);
+ Route::POST('properties/{id}', [PropertyController::class,'updateProperty'])->middleware(['scope:view-property,create-property,edit-property,delete-property']);
+
+// *******************************   END  : MOHOSIN : PROPERTIES ********************************************************** END
+
+
+
+
+ // *******************************  Start  : MOHOSIN : PROPERTY_IMAGE ************************************************* START
+ Route::apiResource('propertyimages', PropertyImageController::class)->middleware(['scope:view-property,create-property,edit-property,delete-property']);
+ Route::POST('propertyimage/update/{id}', [PropertyImageController::class,'updatePropertyImage'])->middleware(['scope:view-property,create-property,edit-property,delete-property']);
+
+// *******************************   END  : MOHOSIN : PROPERTY_IMAGE ********************************************************** END
+
+
+
+ // *******************************  Start  : MOHOSIN : PROPERTY_UNIT  ************************************************* START
+ Route::apiResource('propertyunits', PropertyUnitController::class)->middleware(['scope:view-property,create-property,edit-property,delete-property']);
+ Route::POST('propertyunit/update/{id}', [PropertyUnitController::class,'updatePropertyImage'])->middleware(['scope:view-property,create-property,edit-property,delete-property']);
+
+// *******************************   END  : MOHOSIN : PROPERTY_IMAGE ********************************************************** END
+
+
 
 
 });

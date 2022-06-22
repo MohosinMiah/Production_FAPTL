@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\PropertyRequest;
+use App\Http\Requests\PropertyUnitRequest;
+use App\Http\Resources\PropertyUnitResource;
+use App\Rental\Repositories\Contracts\PropertyUnitInterface;
+
+
 use App\Http\Resources\PeriodResource;
-use App\Http\Resources\PropertyResource;
 use App\Rental\Repositories\Contracts\InvoiceInterface;
 use App\Rental\Repositories\Contracts\LandlordInterface;
-use App\Rental\Repositories\Contracts\PropertyInterface;
 use App\Rental\Repositories\Contracts\UnitInterface;
 use App\Traits\CommunicationMessage;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
-class PropertyController extends ApiController
+class PropertyUnitController extends ApiController
 {
     /**
      * @var PropertyInterface
@@ -51,7 +53,10 @@ class PropertyController extends ApiController
      */
     public function index()
     {
-        
+    
+         $data = PropertyResource::collection( DB::table('')->get() );
+
+        return $this->respondWithData($data);
     }
 
     /**
@@ -61,26 +66,21 @@ class PropertyController extends ApiController
      */
     public function store(PropertyRequest $request)
     {
+    
+       
+                $data = $request->all();
+                $newProperty = $this->propertyRepository->create($data);
+                // var_dump($newProperty);
 
-        $validated = $request->validate([
-            'body' => 'required',
-        ]);
-
-        
-        
-        $data = $request->all();
-        $newProperty = $this->propertyRepository->create($data);
-        // var_dump($newProperty);
-
-        $propertyImage = $request->file('file_name');
-        $imagePath = '/images/'. time().'.'.$propertyImage->extension();
-        $propertyImage->move(public_path().'/images/', $name); 
-            // $this->generalSettingRepository->update($data, $data['id']);
-        //store image file into directory and db
-        $data = $request->all();
-        $data['property_id'] = $newProperty->id;
-        $data['file_name'] = $imagePath;
-        $newPropertyImages = $this->propertImageRepository->create($data);
+                $propertyImage = $request->file('file_name');
+                $imagePath = '/images/'. time().'.'.$propertyImage->extension();
+                $propertyImage->move(public_path().'/images/', $name); 
+                 // $this->generalSettingRepository->update($data, $data['id']);
+                //store image file into directory and db
+                $data = $request->all();
+                $data['property_id'] = $newProperty->id;
+                $data['file_name'] = $imagePath;
+                $newPropertyImages = $this->propertImageRepository->create($data);
                
     }
 
