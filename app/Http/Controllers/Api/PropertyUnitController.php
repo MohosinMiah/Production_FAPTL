@@ -7,11 +7,11 @@ use App\Http\Resources\PropertyUnitResource;
 use App\Rental\Repositories\Contracts\PropertyUnitInterface;
 
 
-use App\Http\Resources\PeriodResource;
-use App\Rental\Repositories\Contracts\InvoiceInterface;
-use App\Rental\Repositories\Contracts\LandlordInterface;
-use App\Rental\Repositories\Contracts\UnitInterface;
-use App\Traits\CommunicationMessage;
+// use App\Http\Resources\PeriodResource;
+// use App\Rental\Repositories\Contracts\InvoiceInterface;
+// use App\Rental\Repositories\Contracts\LandlordInterface;
+// use App\Rental\Repositories\Contracts\UnitInterface;
+// use App\Traits\CommunicationMessage;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -21,7 +21,7 @@ class PropertyUnitController extends ApiController
 	/**
 	 * @var PropertyInterface
 	 */
-	protected $propertyUnitRepository, $load, $accountRepository, $unitRepository, $landlordRepository, $invoiceRepository;
+	protected $propertyUnitRepository; //  $load, $accountRepository, $unitRepository, $landlordRepository, $invoiceRepository
 
 	/**
 	 * PropertyController constructor.
@@ -39,7 +39,7 @@ class PropertyUnitController extends ApiController
 		// $this->unitRepository = $unitRepository;
 		// $this->invoiceRepository = $invoiceRepository;
 		$this->load = [
-			// 'property_type',
+			// 'Property Unit_type',
 			// 'landlord',
 			// 'payment_methods',
 			// 'extra_charges',
@@ -55,23 +55,23 @@ class PropertyUnitController extends ApiController
 	public function index()
 	{
 	
-		$data = PropertyUnitResource::collection( DB::table('faptl_property_units')->get() );
+		$data = PropertyUnitResource::collection( DB::table('faptl_property_units')->paginate() );
 
 		return $this->respondWithData( $data );
 	}
 
 	/**
-	 * @param PropertyRequest $request
+	 * @param PropertyUnitRequest $request
 	 * @return array|mixed
 	 * @throws \Exception
 	 */
-	public function store(PropertyRequest $request)
+	public function store(PropertyUnitRequest $request)
 	{
 	
 	
 				$data = $request->all();
 				$newProperty = $this->propertyUnitRepository->create($data);
-			
+			return $newProperty;
 	}
 
 	/**
@@ -82,18 +82,18 @@ class PropertyUnitController extends ApiController
 	{
 		$property = $this->propertyUnitRepository->getById($uuid, $this->load);
 		if(!$property)
-			return $this->respondNotFound('Property not found.');
+			return $this->respondNotFound('Property Unit not found.');
 
 		return $this->respondWithData(new PropertyUnitResource($property));
 	}
 
 	/**
-	 * @param PropertyRequest $request
+	 * @param PropertyUnitRequest $request
 	 * @param $id
 	 * @return array|mixed
 	 * @throws \Exception
 	 */
-	public function updateProperty(Request $request, $uuid)
+	public function updatePropertyUnit(Request $request, $uuid)
 	{
 	
 		$save = $this->propertyUnitRepository->update($request->all(), $uuid);
@@ -114,9 +114,9 @@ class PropertyUnitController extends ApiController
 	{
 		
 		if ($this->propertyUnitRepository->delete($uuid)) {
-			return $this->respondWithSuccess('Success !! Property has been deleted');
+			return $this->respondWithSuccess('Success !! Property Unit has been deleted');
 		}
-		return $this->respondNotFound('Property not deleted');
+		return $this->respondNotFound('Property Unit Unit not deleted');
 	}
 
 	/**
@@ -126,24 +126,24 @@ class PropertyUnitController extends ApiController
 		$data = $request->all();
 		$fileNameToStore = '';
 		// Upload logo
-		if($request->hasFile('property_photo')) {
-			$filenameWithExt = $request->file('property_photo')->getClientOriginalName();
+		if($request->hasFile('Property Unit_photo')) {
+			$filenameWithExt = $request->file('Property Unit_photo')->getClientOriginalName();
 			// Get just filename
 			$filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
 			// Get just ext
-			$extension = $request->file('property_photo')->getClientOriginalExtension();
+			$extension = $request->file('Property Unit_photo')->getClientOriginalExtension();
 			// Filename to store
 			$fileNameToStore = $filename.'_'.time().'.'.$extension;
-			$path = $request->file('property_photo')->storeAs('photos', $fileNameToStore);
-			$data['property_photo'] = $fileNameToStore;
+			$path = $request->file('Property Unit_photo')->storeAs('photos', $fileNameToStore);
+			$data['Property Unit_photo'] = $fileNameToStore;
 
 			$local_path = config('filesystems.disks.local.root') . DIRECTORY_SEPARATOR .'photos'.DIRECTORY_SEPARATOR. $fileNameToStore;
 
 			// Update the property
 			$this->propertyUnitRepository->update(
 				[
-					'property_photo' => $fileNameToStore
-				], $data['property_id']);
+					'Property Unit_photo' => $fileNameToStore
+				], $data['Property Unit_id']);
 		}
 		return json_encode($fileNameToStore);
 		// also, delete previous image file from server

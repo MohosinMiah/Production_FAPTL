@@ -310,7 +310,7 @@ Route::prefix('v1')->middleware(['auth:api,landlords,tenants', 'throttle:60,1'])
 
  // *******************************  Start  : MOHOSIN : PROPERTY_UNIT  ************************************************* START
  Route::apiResource('propertyunits', PropertyUnitController::class)->middleware(['scope:view-property,create-property,edit-property,delete-property']);
- Route::POST('propertyunit/update/{id}', [PropertyUnitController::class,'updatePropertyImage'])->middleware(['scope:view-property,create-property,edit-property,delete-property']);
+ Route::POST('propertyunit/update/{id}', [PropertyUnitController::class,'updatePropertyUnit'])->middleware(['scope:view-property,create-property,edit-property,delete-property']);
 
 // *******************************   END  : MOHOSIN : PROPERTY_IMAGE ********************************************************** END
 
