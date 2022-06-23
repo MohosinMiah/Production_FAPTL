@@ -1,11 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: kevin
- * Email: robisignals@gmail.com
- * WhatsApp: +254724475357
- * Date: 14/04/2020
- * Time: 12:58
+ * Created by VSCode.
+ * User: MD MOHOSIN MIAH
+ * Email: mohosin.csm@gmail.com
+ * WhatsApp: +8801773193256
+ * Date: 23/06/2022
+ * Time: 12:52 AM
  */
 
 namespace App\Models;
@@ -22,7 +22,7 @@ class PropertyUnit extends BaseModel
      *
      * @var string
      */
-    protected $table = 'faptl_properties';
+    protected $table = 'faptl_property_units';
 
     /**
      * Main table primary key

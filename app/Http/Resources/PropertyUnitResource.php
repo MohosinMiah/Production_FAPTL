@@ -24,40 +24,34 @@ class PropertyUnitResource extends JsonResource
     public function toArray($request)
     {
         return [
-			'id'                    => $this->id,
-
-			'name'         => $this->name,
-			'code'         => $this->code,
-			'type'         => $this->type,
-			'address'         => $this->address,
-			'city'         => $this->city,
-			'state'         => $this->state,
-			'zip'         => $this->zip,
-			'note'         => $this->note,
-			'rent_amount'         => $this->rent_amount,
-			'size'         => $this->size,
-			'link'         => $this->link,
-			'isFeatured'         => $this->isFeatured,
-			'isActive'         => $this->isActive,
-			'assign_user'         => $this->assign_user,
-			'short_description'         => $this->short_description,
-			'long_description'         => $this->long_description,
-			'number_units'         => $this->number_units,
-
-			'has_parking'         => $this->has_parking,
-
-			'has_security_gard'         => $this->has_security_gard,
-
-			'has_electricity'         => $this->has_electricity,
-
-			'has_gas'         => $this->has_gas,
-
-			'has_swiming_pool'         => $this->has_swiming_pool,
-
-			'created_by'    => $this->created_by,
-			'updated_by'    => $this->updated_by,
-			'created_at'    => $this->created_at,
-			'updated_at'    => $this->updated_at,
+			'id'                => $this->id,
+			'property_id'       => $this->property_id,
+			'type'              => $this->type,
+			'name'              => $this->name,
+			'floor'             => $this->floor,
+			'rent'              => $this->rent,
+			'garadge_fee'       => $this->garadge_fee,
+			'electricity_fee'   => $this->electricity_fee,
+			'gas_fee'           => $this->gas_fee,
+			'water_fee'         => $this->water_fee,
+			'service_fee'       => $this->service_fee,
+			'unit_type'         => $this->unit_type,
+			'size'              => $this->size,
+			'total_room'        => $this->total_room,
+			'bed_room'          => $this->bed_room,
+			'bath_room'         => $this->bath_room,
+			'balcony'           => $this->balcony,
+			'note'              => $this->note,
+			'isAvailable'       => $this->isAvailable,
+			'isFeatured'        => $this->isFeatured,
+			
+			'isActive'          => $this->isActive,
+			
+			'deleted_by'        => $this->deleted_by,
+			'created_by'        => $this->created_by,
+			'updated_by'        => $this->updated_by,
+			'created_at'        => $this->created_at,
+			'updated_at'        => $this->updated_at,
         ];
     }
 

@@ -54,10 +54,11 @@ class PropertyResource extends JsonResource
 
 			'has_swiming_pool'         => $this->has_swiming_pool,
 
-			'created_by'    => $this->created_by,
-			'updated_by'    => $this->updated_by,
-			'created_at'    => $this->created_at,
-			'updated_at'    => $this->updated_at,
+			'deleted_by'        => $this->deleted_by,
+			'created_by'        => $this->created_by,
+			'updated_by'        => $this->updated_by,
+			'created_at'        => $this->created_at,
+			'updated_at'        => $this->updated_at,
         ];
     }
 
