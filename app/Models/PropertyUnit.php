@@ -36,28 +36,26 @@ class PropertyUnit extends BaseModel
      * @var array
      */
     protected $fillable = [
+        'property_id',
+        'type', // Business or Individual
         'name',
-        'code',
-        'type',
-        'address',
-        'city',
-        'state', // e.g apartment, commercial, duplex, house, mixed_use, other
-        'zip',
-        'note',
-        'rent_amount',
+        'floor',
+        'rent',
+        'garadge_fee', 
+        'electricity_fee',
+        'gas_fee',
+        'water_fee',
+        'service_fee',
+        'unit_type', // Studio, Duplex , ...
         'size',
-        'link',
-        'has_parking',
-        'has_security_gard',
-        'has_electricity',
-        'has_gas',
-        'has_swiming_pool',
+        'total_room',
+        'bed_room',
+        'bath_room',
+        'balcony',
+        'note',
+        'isAvailable',
         'isFeatured',
-        'isActive',
-        'assign_user',
-		'short_description',
-		'long_description',
-		'number_units',
+		'isActive',
 
         'created_by',
         'updated_by',
@@ -80,9 +78,8 @@ class PropertyUnit extends BaseModel
          * @var array
          */
         'columns' => [
-            'faptl_properties.code' => 1,
-            'faptl_properties.name' => 1,
-            'faptl_properties.city' => 1,
+            'faptl_property_units.id' => 1,
+            'faptl_property_units.name' => 1,
         ]
     ];
 

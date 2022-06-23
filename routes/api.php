@@ -80,7 +80,7 @@ use App\Http\Controllers\Api\UtilityController;
 use App\Http\Controllers\Api\VacationNoticeController;
 use App\Http\Controllers\Api\WaiverController;
 use App\Http\Controllers\Api\PropertyImageController;
-;
+use App\Http\Controllers\Api\PropertyUnitController;
 use Illuminate\Support\Facades\Route;
 
 /*

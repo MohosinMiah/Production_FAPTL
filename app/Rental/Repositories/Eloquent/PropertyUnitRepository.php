@@ -10,8 +10,8 @@
 
 namespace App\Rental\Repositories\Eloquent;
 
-use App\Rental\Repositories\Contracts\PropertyInterface;
-use App\Models\Property;
+use App\Rental\Repositories\Contracts\PropertyUnitInterface;
+use App\Models\PropertyUnit;
 
 class PropertyUnitRepository extends BaseRepository implements PropertyUnitInterface
 {
@@ -21,7 +21,7 @@ class PropertyUnitRepository extends BaseRepository implements PropertyUnitInter
      * GuestRepository constructor.
      * @param Property $model
      */
-    function __construct(Property $model)
+    function __construct(PropertyUnit $model)
     {
         $this->model = $model;
     }
