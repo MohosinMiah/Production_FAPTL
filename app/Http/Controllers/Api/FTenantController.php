@@ -18,13 +18,13 @@ use Illuminate\Support\Facades\DB;
 class FTenantController extends ApiController
 {
     /**
-     * @var PropertyInterface
+     * @var TenantInterface
      */
     protected $fTenantRepository, $load, $accountRepository, $unitRepository, $landlordRepository, $invoiceRepository;
 
     /**
-     * PropertyController constructor.
-     * @param PropertyInterface $propertyInterface
+     * TenantController constructor.
+     * @param TenantInterface $TenantInterface
      * @param UnitInterface $unitRepository
      * @param LandlordInterface $landlordRepository
      * @param InvoiceInterface $invoiceRepository
@@ -37,7 +37,7 @@ class FTenantController extends ApiController
         $this->unitRepository = $unitRepository;
         $this->invoiceRepository = $invoiceRepository;
         $this->load = [
-            'property_type',
+            'Tenant_type',
 			'landlord',
 			'payment_methods',
 			'extra_charges',
@@ -66,7 +66,7 @@ class FTenantController extends ApiController
         
         
         $data = $request->all();
-        $newProperty = $this->fTenantRepository->create($data);
+        $newTenant = $this->fTenantRepository->create($data);
     }
 
     /**
@@ -75,11 +75,11 @@ class FTenantController extends ApiController
      */
     public function show($uuid)
     {
-        $property = $this->fTenantRepository->getById($uuid, $this->load);
-        if(!$property)
-            return $this->respondNotFound('Property not found.');
+        $Tenant = $this->fTenantRepository->getById($uuid, $this->load);
+        if(!$Tenant)
+            return $this->respondNotFound('Tenant not found.');
 
-        return $this->respondWithData(new FTenantResource($property));
+        return $this->respondWithData(new FTenantResource($Tenant));
     }
 
     /**
@@ -96,7 +96,7 @@ class FTenantController extends ApiController
             return $this->respondNotSaved($save['message']);
         } else
 
-            return $this->respondWithSuccess('Success !! Property has been updated.');
+            return $this->respondWithSuccess('Success !! Tenant has been updated.');
     }
 
     /**
@@ -108,42 +108,12 @@ class FTenantController extends ApiController
     {
         
         if ($this->fTenantRepository->delete($uuid)) {
-            return $this->respondWithSuccess('Success !! Property has been deleted');
+            return $this->respondWithSuccess('Success !! Tenant has been deleted');
         }
-        return $this->respondNotFound('Property not deleted');
+        return $this->respondNotFound('Tenant not deleted');
     }
 
-    /**
-     * @param Request $request
-     */
-    public function uploadPhoto(Request $request) {
-        $data = $request->all();
-        $fileNameToStore = '';
-        // Upload logo
-        if($request->hasFile('property_photo')) {
-            $filenameWithExt = $request->file('property_photo')->getClientOriginalName();
-            // Get just filename
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            // Get just ext
-            $extension = $request->file('property_photo')->getClientOriginalExtension();
-            // Filename to store
-            $fileNameToStore = $filename.'_'.time().'.'.$extension;
-            $path = $request->file('property_photo')->storeAs('photos', $fileNameToStore);
-            $data['property_photo'] = $fileNameToStore;
-
-            $local_path = config('filesystems.disks.local.root') . DIRECTORY_SEPARATOR .'photos'.DIRECTORY_SEPARATOR. $fileNameToStore;
-
-            // Update the property
-            $this->fTenantRepository->update(
-                [
-                    'property_photo' => $fileNameToStore
-                ], $data['property_id']);
-        }
-        return json_encode($fileNameToStore);
-        // also, delete previous image file from server
-       // $this->memberRepository->update(array_filter($data), $data['id']);
-    }
-
+    /
     /**
      * @param Request $request
      */
@@ -181,8 +151,8 @@ class FTenantController extends ApiController
     public function periods(Request $request) {
         $data = $request->all();
         if (array_key_exists('id', $data)) {
-            $property = $this->fTenantRepository->getById($data['id']);
-            return PeriodResource::collection($property->periods);
+            $Tenant = $this->fTenantRepository->getById($data['id']);
+            return PeriodResource::collection($Tenant->periods);
         }
         return [];
     }
