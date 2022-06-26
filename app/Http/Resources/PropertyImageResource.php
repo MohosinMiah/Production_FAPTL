@@ -30,6 +30,7 @@ class PropertyImageResource extends JsonResource
             'isActive'         => $this->isActive,
             'isFeatured'    => $this->isFeatured,
 
+            'deleted_at'        => $this->deleted_at,
             'created_by'    => $this->created_by,
             'updated_by'      => $this->updated_by,
             'deleted_by'      => $this->deleted_by,

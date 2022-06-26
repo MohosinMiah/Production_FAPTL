@@ -36,7 +36,7 @@ class FTenant extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'name ',
+        'name',
         'type',
         'date_of_birth',
         'id_number',
@@ -50,6 +50,7 @@ class FTenant extends BaseModel
         'state',
         'country',
         'postal_code',
+        
         'business_name',
         'registration_number',
 

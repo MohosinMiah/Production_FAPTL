@@ -52,7 +52,7 @@ class FTenantController extends ApiController
      */
     public function index()
     {
-        return  FTenantResource::collection( DB::table('faptl_tenants')->get());
+        return  FTenantResource::collection( DB::table('faptl_tenants')->where('deleted_at', NULL)->get());
 
     }
 
@@ -88,7 +88,7 @@ class FTenantController extends ApiController
      * @return array|mixed
      * @throws \Exception
      */
-    public function updateProperty(Request $request, $uuid)
+    public function updateTenant(Request $request, $uuid)
     {
         $save = $this->fTenantRepository->update($request->all(), $uuid);
 
