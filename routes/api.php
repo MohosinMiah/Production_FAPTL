@@ -81,6 +81,7 @@ use App\Http\Controllers\Api\VacationNoticeController;
 use App\Http\Controllers\Api\WaiverController;
 use App\Http\Controllers\Api\PropertyImageController;
 use App\Http\Controllers\Api\PropertyUnitController;
+use App\Http\Controllers\Api\PropertyUnitImageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -313,6 +314,14 @@ Route::prefix('v1')->middleware(['auth:api,landlords,tenants', 'throttle:60,1'])
  Route::POST('propertyunit/update/{id}', [PropertyUnitController::class,'updatePropertyUnit'])->middleware(['scope:view-property,create-property,edit-property,delete-property']);
 
 // *******************************   END  : MOHOSIN : PROPERTY_IMAGE ********************************************************** END
+
+
+
+ // *******************************  Start  : MOHOSIN : PROPERTY_UNIT IMAGE ************************************************* START
+ Route::apiResource('propertyunitimages', PropertyUnitImageController::class)->middleware(['scope:view-property,create-property,edit-property,delete-property']);
+ Route::POST('propertyunitimage/update/{id}', [PropertyUnitImageController::class,'updatePropertyUnit'])->middleware(['scope:view-property,create-property,edit-property,delete-property']);
+
+// *******************************   END  : MOHOSIN : PROPERTY_UNIT IMAGE ********************************************************** END
 
 
 

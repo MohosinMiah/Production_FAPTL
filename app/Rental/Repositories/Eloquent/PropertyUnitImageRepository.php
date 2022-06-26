@@ -13,7 +13,7 @@ namespace App\Rental\Repositories\Eloquent;
 use App\Rental\Repositories\Contracts\PropertyUnitImageInterface;
 use App\Models\PropertyUnitImage;
 
-class PropertyUnitImageRepository extends BaseRepository implements PropertyUnitInterface
+class PropertyUnitImageRepository extends BaseRepository implements PropertyUnitImageInterface
 {
     protected $model;
 

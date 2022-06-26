@@ -73,7 +73,8 @@ class RentalServiceProvider extends ServiceProvider
         'Waiver',
         'Property',
         'PropertyImage',
-        'PropertyUnit'
+        'PropertyUnit',
+        'PropertyUnitImage'
     ];
 
     /**

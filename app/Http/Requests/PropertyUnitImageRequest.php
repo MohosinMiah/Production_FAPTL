@@ -1,73 +1,51 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: kevin
- * Email: robisignals@gmail.com
- * WhatsApp: +254724475357
- * Date: 13/05/2020
- * Time: 14:07
+ * Created by VSCODE.
+ * User: MD MOHOSIN MIAH
+ * Email: mohosin.csm@gmail.com
+ * Date: 10/05/2022
+ * Time: 14:20
  */
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
-
 class PropertyUnitImageRequest extends BaseRequest
 {
 
-	/**
-	 * Get the validation rules that apply to the request.
-	 *
-	 * @return array
-	 */
-	public function rules()
-	{
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
 
-		$rules = [];
+        $rules = [];
 
-		switch ($this->method()) {
-			case 'GET':
-			case 'DELETE':
-				{
-					return [];
-					break;
-				}
-			case 'POST':
-				{
-					$rules = [
-					//  'agent_id' => 'exists:agents,id',
-						'property_id'          => 'required',
-						'type'                 => 'required',  
-						'floor'                => 'required',  
-						'rent'                 => 'required',  
-						'total_room'           => 'required',
-						'created_by'           => '',
-						'updated_by'           => '',
-						'deleted_by'           => ''
-					];
+        switch ($this->method()) {
+            case 'GET':
+            case 'DELETE':
+            {
+                return [];
+                break;
+            }
+            case 'POST':
+            {
+                $rules = [
+                    'unit_id' => 'required',
+                    'file_name' => 'required',
+                ];
 
-					break;
-				}
-			case 'PUT':
-			case 'PATCH':
-				{
-					$rules = [
-						'property_id'          => 'required',
-						'type'                 => 'required',  
-						'floor'                => 'required',  
-						'rent'                 => 'required',  
-						'total_room'           => 'required',
-						'created_by'           => '',
-						'updated_by'           => '',
-						'deleted_by'           => ''
-					];
-					break;
-				}
-			default:
-				break;
-		}
+                break;
+            }
+            case 'PUT':
+            case 'PATCH':
+            
+            default:
+                break;
+        }
 
-		return $rules;
+        return $rules;
 
-	}
+    }
 }

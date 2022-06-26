@@ -2,196 +2,154 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\PropertyUnitRequest;
-use App\Http\Resources\PropertyUnitResource;
-use App\Rental\Repositories\Contracts\PropertyUnitInterface;
+use App\Http\Requests\PropertyUnitImageRequest;
+use App\Http\Resources\PropertyUnitImageResource;
+use App\Models\PropertyUnitImage;
+use App\Rental\Repositories\Contracts\PropertyUnitImageInterface;
 
 
-// use App\Http\Resources\PeriodResource;
-// use App\Rental\Repositories\Contracts\InvoiceInterface;
-// use App\Rental\Repositories\Contracts\LandlordInterface;
-// use App\Rental\Repositories\Contracts\UnitInterface;
-// use App\Traits\CommunicationMessage;
+use App\Models\GeneralSetting;
+use App\Models\Lease;
+use App\Models\LeaseSetting;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade as PDF;
 
-class PropertyUnitImageController extends ApiController 
+class PropertyUnitImageController extends ApiController
 {
-	// PropertyUnitImage
-	/**
-	 * @var PropertyInterface
-	 */
-	protected $propertyUnitRepository; //  $load, $accountRepository, $unitRepository, $landlordRepository, $invoiceRepository
+    /** 
+     * @var PropertyImageInterface
+     */
+    protected $propertyUnitImageRepository, $load;
 
-	/**
-	 * PropertyController constructor.
-	 * @param PropertyInterface $propertyInterface
-	 * @param UnitInterface $unitRepository
-	 * @param LandlordInterface $landlordRepository
-	 * @param InvoiceInterface $invoiceRepository
-	 */
-	public function __construct(PropertyUnitInterface $propertyUnitInterface)
-	{
-		// UnitInterface $unitRepository,
-		//                         LandlordInterface $landlordRepository, InvoiceInterface $invoiceRepository
-		$this->propertyUnitRepository = $propertyUnitInterface;
-		// $this->landlordRepository = $landlordRepository;
-		// $this->unitRepository = $unitRepository;
-		// $this->invoiceRepository = $invoiceRepository;
-		$this->load = [
-			// 'Property Unit_type',
-			// 'landlord',
-			// 'payment_methods',
-			// 'extra_charges',
-			// 'late_fees',
-			// 'utility_costs'
-		];
-	}
+    /**
+     * AccountController constructor.
+     * @param PropertyImageInterface $propertyImageInterface
+     */
+    public function __construct(PropertyUnitImageInterface $propertyUnitImageInterface)
+    {
+        $this->propertyUnitImageRepository = $propertyUnitImageInterface;
+        $this->load = [];
+    }
 
-	/**
-	 * Display a listing of the resource.
-	 * @return Response
-	 */
-	public function index()
-	{
-	
-		$data = PropertyUnitResource::collection( DB::table('faptl_property_units')->paginate() );
+    /**
+     * Display a listing of the resource.
+     * @param Request $request
+     * @return mixed
+     */
+    public function index(PropertyUnitImageRequest $request)
+    {
+        if ($select = request()->query('list')) {
+            return $this->propertyUnitImageRepository->listAll($this->formatFields($select));
+        }
+        $data = $this->propertyUnitImageRepository->getAllPaginate($this->load);
 
-		return $this->respondWithData( $data );
-	}
+  
+        return $this->respondWithData(PropertyUnitImageResource::collection($data));
+    }
 
-	/**
-	 * @param PropertyUnitRequest $request
-	 * @return array|mixed
-	 * @throws \Exception
-	 */
-	public function store(PropertyUnitRequest $request)
-	{
-	
-	
+    /**
+     * @param PropertyImageRequest $request
+     * @return mixed
+     */
+    public function store(Request $request)
+    {
+		
+		if($request->hasfile('file_name'))
+		{
+			foreach( $request->file('file_name') as $image)
+			{
+				$imageName=time().'_'.$image->getClientOriginalName();
+				$image->move(public_path().'/images/', $imageName);  
 				$data = $request->all();
-				$newProperty = $this->propertyUnitRepository->create($data);
-			return $newProperty;
-	}
+				$data['file_name']  = $imageName;
+				$data['isActive'] = 1;
+				$data['isFeatured'] = 0;
+				$newProperty = $this->propertyUnitImageRepository->create($data);
+			}
+			return $this->respondWithSuccess('Success !! Property Image has been created.');
+		}
+		else
+		{
+		return $this->respondNotSaved( 'Error !! Property Image has Not  created.' );
+		}
+    }
 
-	/**
-	 * @param $uuid
-	 * @return mixed
-	 */
-	public function show($uuid)
-	{
-		$property = $this->propertyUnitRepository->getById($uuid, $this->load);
-		if(!$property)
-			return $this->respondNotFound('Property Unit not found.');
+    /**
+     * @param $uuid
+     * @return mixed
+     */
+    public function show( $uuid )
+    {
+        $image = $this->propertyUnitImageRepository->getById( $uuid );
 
-		return $this->respondWithData(new PropertyUnitResource($property));
-	}
+        if( !$image )
+		{
+            return $this->respondNotFound('Property Image not found.');
+        }
+        return $this->respondWithData(new PropertyImageResource( $image ) );
 
-	/**
-	 * @param PropertyUnitRequest $request
-	 * @param $id
-	 * @return array|mixed
-	 * @throws \Exception
-	 */
-	public function updatePropertyUnit(Request $request, $uuid)
-	{
+    }
+
+    /**
+     * @param PropertyImageRequest $request
+     * @param $uuid
+     * @return mixed
+     */
+    public function update(PropertyImageRequest $request, $uuid)
+    {
+		return $request->all();
+
+		$save = $this->propertyUnitImageRepository->update($request->all(), $uuid);
+
 	
-		$save = $this->propertyUnitRepository->update($request->all(), $uuid);
 
-		if (!is_null($save) && $save['error']) {
-			return $this->respondNotSaved($save['message']);
-		} else
+    }
 
-			return $this->respondWithSuccess('Success !! Property has been updated.');
-	}
 
-	/**
-	 * @param $uuid
-	 * @return array
-	 * @throws \Exception
-	 */
-	public function destroy($uuid)
+	public function updatePropertyImage( Request $request, $uuid )
 	{
 		
-		if ($this->propertyUnitRepository->delete($uuid)) {
-			return $this->respondWithSuccess('Success !! Property Unit has been deleted');
+
+		if($request->hasfile('file_name'))
+		{
+			foreach($request->file('file_name') as $image)
+			{
+				$imageName=time().'_'.$image->getClientOriginalName();
+				$image->move(public_path().'/images/', $imageName);  
+				$data = $request->all();
+				$data['file_name']  = $imageName;
+				$newProperty = $this->propertyUnitImageRepository->create($data);
+			}
+			return $this->respondWithSuccess('Success !! Property Image has been Updated.');
 		}
-		return $this->respondNotFound('Property Unit Unit not deleted');
-	}
-
-	/**
-	 * @param Request $request
-	 */
-	public function uploadPhoto(Request $request) {
-		$data = $request->all();
-		$fileNameToStore = '';
-		// Upload logo
-		if($request->hasFile('Property Unit_photo')) {
-			$filenameWithExt = $request->file('Property Unit_photo')->getClientOriginalName();
-			// Get just filename
-			$filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-			// Get just ext
-			$extension = $request->file('Property Unit_photo')->getClientOriginalExtension();
-			// Filename to store
-			$fileNameToStore = $filename.'_'.time().'.'.$extension;
-			$path = $request->file('Property Unit_photo')->storeAs('photos', $fileNameToStore);
-			$data['Property Unit_photo'] = $fileNameToStore;
-
-			$local_path = config('filesystems.disks.local.root') . DIRECTORY_SEPARATOR .'photos'.DIRECTORY_SEPARATOR. $fileNameToStore;
-
-			// Update the property
-			$this->propertyUnitRepository->update(
-				[
-					'Property Unit_photo' => $fileNameToStore
-				], $data['Property Unit_id']);
-		}
-		return json_encode($fileNameToStore);
-		// also, delete previous image file from server
-	// $this->memberRepository->update(array_filter($data), $data['id']);
-	}
-
-	/**
-	 * @param Request $request
-	 */
-	public function profilePic(Request $request)
-	{
-		$data = $request->all();
-		if( array_key_exists('file_path', $data) ) {
-			$file_path = $data['file_path'];
-			$local_path = config('filesystems.disks.local.root') . DIRECTORY_SEPARATOR .'photos'.DIRECTORY_SEPARATOR. $file_path;
-			return response()->file($local_path);
-		}
-		return $this->respondNotFound('file_path not provided');
-	}
-
-	/**
-	 * @param Request $request
-	 * @return mixed
-	 */
-	public function search(Request $request) {
-		$data = $request->all();
-		if (array_key_exists('filter', $data)) {
-			$filter = $data['filter'];
-
-			$data = $this->propertyUnitRepository->search($filter, ['extra_charges', 'units', 'late_fees', 'utility_costs', 'payment_methods']);
-			return PropertyUnitResource::collection($data);
-
-		// return $this->propertyUnitRepository->search($filter, ['extra_charges', 'units', 'late_fees', 'utility_costs', 'payment_methods']);
+		else
+		{
+		  $save = $this->propertyUnitImageRepository->update( $request->all(), $uuid );
+		  
+			if (!is_null($save) && $save['error'])
+			{
+				return $this->respondNotSaved($save['message']);
+			} 
+			else
+			{
+				return $this->respondWithSuccess('Success !! Property Image has been updated.');
+			}
+            
 		}
 	}
 
-	/**
-	 * @param Request $request
-	 * @return mixed
-	 */
-	public function periods(Request $request) {
-		$data = $request->all();
-		if (array_key_exists('id', $data)) {
-			$property = $this->propertyUnitRepository->getById($data['id']);
-			return PeriodResource::collection($property->periods);
-		}
-		return [];
-	}
+    /**
+     * @param $uuid
+     * @return mixed
+     */
+    public function destroy($uuid)
+    {
+		if ($this->propertyUnitImageRepository->delete($uuid)) {
+            return $this->respondWithSuccess('Success !! Property Image has been deleted');
+        }
+        return $this->respondNotFound('Property Image not deleted');
+
+    }
+
+    
 }
-

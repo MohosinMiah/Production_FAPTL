@@ -17,7 +17,7 @@ class PropertyImageController extends ApiController
     /**
      * @var PropertyImageInterface
      */
-    protected $propertImageRepository, $load;
+    protected $propertyImageRepository, $load;
 
     /**
      * AccountController constructor.
@@ -25,7 +25,7 @@ class PropertyImageController extends ApiController
      */
     public function __construct(PropertyImageInterface $propertyImageInterface)
     {
-        $this->propertImageRepository = $propertyImageInterface;
+        $this->propertyImageRepository = $propertyImageInterface;
         $this->load = [];
     }
 
@@ -37,9 +37,9 @@ class PropertyImageController extends ApiController
     public function index(Request $request)
     {
         if ($select = request()->query('list')) {
-            return $this->propertImageRepository->listAll($this->formatFields($select));
+            return $this->propertyImageRepository->listAll($this->formatFields($select));
         }
-        $data = $this->propertImageRepository->getAllPaginate($this->load);
+        $data = $this->propertyImageRepository->getAllPaginate($this->load);
 
   
         return $this->respondWithData(PropertyImageResource::collection($data));
@@ -62,7 +62,7 @@ class PropertyImageController extends ApiController
 				$data['file_name']  = $imageName;
 				$data['isActive'] = 1;
 				$data['isFeatured'] = 0;
-				$newProperty = $this->propertImageRepository->create($data);
+				$newProperty = $this->propertyImageRepository->create($data);
 			}
 			return $this->respondWithSuccess('Success !! Property Image has been created.');
 		}
@@ -78,7 +78,7 @@ class PropertyImageController extends ApiController
      */
     public function show( $uuid )
     {
-        $image = $this->propertImageRepository->getById( $uuid );
+        $image = $this->propertyImageRepository->getById( $uuid );
 
         if( !$image )
 		{
@@ -97,7 +97,7 @@ class PropertyImageController extends ApiController
     {
 		return $request->all();
 
-		$save = $this->propertImageRepository->update($request->all(), $uuid);
+		$save = $this->propertyImageRepository->update($request->all(), $uuid);
 
 	
 
@@ -116,13 +116,13 @@ class PropertyImageController extends ApiController
 				$image->move(public_path().'/images/', $imageName);  
 				$data = $request->all();
 				$data['file_name']  = $imageName;
-				$newProperty = $this->propertImageRepository->create($data);
+				$newProperty = $this->propertyImageRepository->create($data);
 			}
 			return $this->respondWithSuccess('Success !! Property Image has been Updated.');
 		}
 		else
 		{
-		  $save = $this->propertImageRepository->update( $request->all(), $uuid );
+		  $save = $this->propertyImageRepository->update( $request->all(), $uuid );
 		  
 			if (!is_null($save) && $save['error'])
 			{
@@ -142,7 +142,7 @@ class PropertyImageController extends ApiController
      */
     public function destroy($uuid)
     {
-		if ($this->propertImageRepository->delete($uuid)) {
+		if ($this->propertyImageRepository->delete($uuid)) {
             return $this->respondWithSuccess('Success !! Property Image has been deleted');
         }
         return $this->respondNotFound('Property Image not deleted');
