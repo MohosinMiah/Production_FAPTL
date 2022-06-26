@@ -37,8 +37,10 @@ class PropertyResource extends JsonResource
 			'rent_amount'         => $this->rent_amount,
 			'size'         => $this->size,
 			'link'         => $this->link,
+			'isAvailable' => $this->isAvailable,
 			'isFeatured'         => $this->isFeatured,
 			'isActive'         => $this->isActive,
+
 			'assign_user'         => $this->assign_user,
 			'short_description'         => $this->short_description,
 			'long_description'         => $this->long_description,

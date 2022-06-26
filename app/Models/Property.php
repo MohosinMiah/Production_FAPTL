@@ -52,12 +52,16 @@ class Property extends BaseModel
         'has_electricity',
         'has_gas',
         'has_swiming_pool',
+
+        'isAvailable',
         'isFeatured',
         'isActive',
+
         'assign_user',
 		'short_description',
 		'long_description',
 		'number_units',
+
 
         'created_by',
         'updated_by',

@@ -51,7 +51,8 @@ class PropertyController extends ApiController
      */
     public function index()
     {
-        
+        return  PropertyResource::collection( DB::table('faptl_properties')->get());
+
     }
 
     /**
@@ -61,27 +62,10 @@ class PropertyController extends ApiController
      */
     public function store(PropertyRequest $request)
     {
-
-        $validated = $request->validate([
-            'body' => 'required',
-        ]);
-
         
         
         $data = $request->all();
         $newProperty = $this->propertyRepository->create($data);
-        // var_dump($newProperty);
-
-        $propertyImage = $request->file('file_name');
-        $imagePath = '/images/'. time().'.'.$propertyImage->extension();
-        $propertyImage->move(public_path().'/images/', $name); 
-            // $this->generalSettingRepository->update($data, $data['id']);
-        //store image file into directory and db
-        $data = $request->all();
-        $data['property_id'] = $newProperty->id;
-        $data['file_name'] = $imagePath;
-        $newPropertyImages = $this->propertImageRepository->create($data);
-               
     }
 
     /**
@@ -105,7 +89,6 @@ class PropertyController extends ApiController
      */
     public function updateProperty(Request $request, $uuid)
     {
-       
         $save = $this->propertyRepository->update($request->all(), $uuid);
 
         if (!is_null($save) && $save['error']) {

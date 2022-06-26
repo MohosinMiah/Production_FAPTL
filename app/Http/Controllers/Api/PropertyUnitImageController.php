@@ -16,8 +16,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
-class PropertyUnitController extends ApiController
+class PropertyUnitImageController extends ApiController 
 {
+	// PropertyUnitImage
 	/**
 	 * @var PropertyInterface
 	 */
@@ -55,7 +56,7 @@ class PropertyUnitController extends ApiController
 	public function index()
 	{
 	
-		$data = PropertyUnitResource::collection( DB::table('faptl_property_units')->get() );
+		$data = PropertyUnitResource::collection( DB::table('faptl_property_units')->paginate() );
 
 		return $this->respondWithData( $data );
 	}

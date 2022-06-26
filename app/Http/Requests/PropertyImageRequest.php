@@ -32,7 +32,7 @@ class PropertyImageRequest extends BaseRequest
             case 'POST':
             {
                 $rules = [
-                    // 'property_id' => 'required',
+                    'property_id' => 'required',
                     'file_name' => 'required',
                 ];
 

@@ -51,10 +51,10 @@ class PropertyImageController extends ApiController
      */
     public function store(Request $request)
     {
-
+		
 		if($request->hasfile('file_name'))
 		{
-			foreach($request->file('file_name') as $image)
+			foreach( $request->file('file_name') as $image)
 			{
 				$imageName=time().'_'.$image->getClientOriginalName();
 				$image->move(public_path().'/images/', $imageName);  

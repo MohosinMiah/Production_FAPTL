@@ -51,9 +51,13 @@ class CreateFaptlPropertiesTable extends Migration
 
             $table->string('has_swiming_pool',5)->default(0);
 
-            $table->string('isFeatured')->default(0);
 
-            $table->string('isActive')->default(0);
+			$table->string('isAvailable')->default(1);
+
+			$table->string('isActive')->default(1);
+
+			$table->string('isFeatured')->default(0);
+            
 
             $table->string('assign_user',36)->nullable();
 

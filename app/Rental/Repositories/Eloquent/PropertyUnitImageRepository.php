@@ -10,18 +10,18 @@
 
 namespace App\Rental\Repositories\Eloquent;
 
-use App\Rental\Repositories\Contracts\PropertyUnitInterface;
-use App\Models\PropertyUnit;
+use App\Rental\Repositories\Contracts\PropertyUnitImageInterface;
+use App\Models\PropertyUnitImage;
 
-class PropertyUnitRepository extends BaseRepository implements PropertyUnitInterface
+class PropertyUnitImageRepository extends BaseRepository implements PropertyUnitInterface
 {
     protected $model;
 
     /**
      * GuestRepository constructor.
-     * @param PropertyUnit $model
+     * @param Property $model
      */
-    function __construct(PropertyUnit $model)
+    function __construct(PropertyUnitImage $model)
     {
         $this->model = $model;
     }
