@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\FTenantImageRequest;
-use App\Http\Resources\PropertyImageResource;
-use App\Models\PropertyImage;
+use App\Http\Resources\FTenantImageResource;
+use App\Models\FTenantImage;
 use App\Models\GeneralSetting;
 use App\Models\Lease;
 use App\Models\LeaseSetting;
