@@ -37,7 +37,7 @@ class PropertyUnit extends BaseModel
      */
     protected $fillable = [
         'property_id',
-        'type', // Business or Individual
+        'type',
         'name',
         'floor',
         'rent',
@@ -46,7 +46,7 @@ class PropertyUnit extends BaseModel
         'gas_fee',
         'water_fee',
         'service_fee',
-        'unit_type', // Studio, Duplex , ...
+        'unit_type',
         'size',
         'total_room',
         'bed_room',

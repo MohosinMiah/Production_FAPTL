@@ -7,11 +7,11 @@ use App\Http\Resources\PropertyUnitResource;
 use App\Rental\Repositories\Contracts\PropertyUnitInterface;
 
 
-// use App\Http\Resources\PeriodResource;
-// use App\Rental\Repositories\Contracts\InvoiceInterface;
-// use App\Rental\Repositories\Contracts\LandlordInterface;
-// use App\Rental\Repositories\Contracts\UnitInterface;
-// use App\Traits\CommunicationMessage;
+use App\Http\Resources\PeriodResource;
+use App\Rental\Repositories\Contracts\InvoiceInterface;
+use App\Rental\Repositories\Contracts\LandlordInterface;
+use App\Rental\Repositories\Contracts\UnitInterface;
+use App\Traits\CommunicationMessage;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -30,21 +30,21 @@ class PropertyUnitController extends ApiController
 	 * @param LandlordInterface $landlordRepository
 	 * @param InvoiceInterface $invoiceRepository
 	 */
-	public function __construct(PropertyUnitInterface $propertyUnitInterface)
+	public function __construct(PropertyUnitInterface $propertyUnitInterface, UnitInterface $unitRepository,
+		LandlordInterface $landlordRepository, InvoiceInterface $invoiceRepository)
 	{
-		// UnitInterface $unitRepository,
-		//                         LandlordInterface $landlordRepository, InvoiceInterface $invoiceRepository
+		
+		
 		$this->propertyUnitRepository = $propertyUnitInterface;
-		// $this->landlordRepository = $landlordRepository;
-		// $this->unitRepository = $unitRepository;
-		// $this->invoiceRepository = $invoiceRepository;
+		$this->landlordRepository = $landlordRepository;
+		$this->unitRepository = $unitRepository;
+		$this->invoiceRepository = $invoiceRepository;
 		$this->load = [
-			// 'Property Unit_type',
-			// 'landlord',
-			// 'payment_methods',
-			// 'extra_charges',
-			// 'late_fees',
-			// 'utility_costs'
+			'landlord',
+			'payment_methods',
+			'extra_charges',
+			'late_fees',
+			'utility_costs'
 		];
 	}
 
@@ -67,11 +67,17 @@ class PropertyUnitController extends ApiController
 	 */
 	public function store(PropertyUnitRequest $request)
 	{
-	
-	
-				$data = $request->all();
-				$newProperty = $this->propertyUnitRepository->create($data);
-			return $newProperty;
+		$data = $request->all();
+		$save = $this->propertyUnitRepository->create( $data );
+
+		if( !is_null( $save ) && $save['error'] )
+		{
+            return $this->respondNotSaved( $save['message'] );
+        }
+		else
+		{
+            return $this->respondWithSuccess('Success !! Property Unit has been created.');
+        }
 	}
 
 	/**
@@ -80,7 +86,7 @@ class PropertyUnitController extends ApiController
 	 */
 	public function show($uuid)
 	{
-		$property = $this->propertyUnitRepository->getById($uuid, $this->load);
+		$property = $this->propertyUnitRepository->getById( $uuid, $this->load);
 		if(!$property)
 			return $this->respondNotFound('Property Unit not found.');
 

@@ -1,11 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: kevin
- * Email: robisignals@gmail.com
- * WhatsApp: +254724475357
- * Date: 13/05/2020
- * Time: 14:07
+ * Created by VSCode.
+ * User: MD MOHOSIN MIAH
+ * Email: mohosin.csm@gmail.com
+ * WhatsApp: ++8801773193256
+ * Date: 25/06/2022
+ * Time: 06:26
  */
 
 namespace App\Http\Requests;
@@ -35,7 +35,6 @@ class PropertyUnitRequest extends BaseRequest
 			case 'POST':
 				{
 					$rules = [
-					//  'agent_id' => 'exists:agents,id',
 						'property_id'          => 'required',
 						'type'                 => 'required',  
 						'floor'                => 'required',  
