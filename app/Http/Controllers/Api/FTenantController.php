@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\PropertyRequest;
-use App\Http\Resources\PeriodResource;
-use App\Http\Resources\PropertyResource;
+use App\Http\Requests\FTenantRequest;
+use App\Http\Resources\FTenantResource;
+use App\Rental\Repositories\Contracts\FTenantInterface;
+
+
 use App\Rental\Repositories\Contracts\InvoiceInterface;
 use App\Rental\Repositories\Contracts\LandlordInterface;
-use App\Rental\Repositories\Contracts\PropertyInterface;
 use App\Rental\Repositories\Contracts\UnitInterface;
 use App\Traits\CommunicationMessage;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class FTenantController extends ApiController
     /**
      * @var PropertyInterface
      */
-    protected $propertyRepository, $load, $accountRepository, $unitRepository, $landlordRepository, $invoiceRepository;
+    protected $fTenantRepository, $load, $accountRepository, $unitRepository, $landlordRepository, $invoiceRepository;
 
     /**
      * PropertyController constructor.
@@ -28,10 +29,10 @@ class FTenantController extends ApiController
      * @param LandlordInterface $landlordRepository
      * @param InvoiceInterface $invoiceRepository
      */
-    public function __construct(PropertyInterface $propertyInterface, UnitInterface $unitRepository,
+    public function __construct(FTenantInterface $ftenantInterface, UnitInterface $unitRepository,
                                 LandlordInterface $landlordRepository, InvoiceInterface $invoiceRepository)
     {
-        $this->propertyRepository = $propertyInterface;
+        $this->fTenantRepository = $ftenantInterface;
         $this->landlordRepository = $landlordRepository;
         $this->unitRepository = $unitRepository;
         $this->invoiceRepository = $invoiceRepository;
@@ -51,7 +52,7 @@ class FTenantController extends ApiController
      */
     public function index()
     {
-        return  PropertyResource::collection( DB::table('faptl_properties')->get());
+        return  FTenantResource::collection( DB::table('faptl_tenants')->get());
 
     }
 
@@ -65,7 +66,7 @@ class FTenantController extends ApiController
         
         
         $data = $request->all();
-        $newProperty = $this->propertyRepository->create($data);
+        $newProperty = $this->fTenantRepository->create($data);
     }
 
     /**
@@ -74,11 +75,11 @@ class FTenantController extends ApiController
      */
     public function show($uuid)
     {
-        $property = $this->propertyRepository->getById($uuid, $this->load);
+        $property = $this->fTenantRepository->getById($uuid, $this->load);
         if(!$property)
             return $this->respondNotFound('Property not found.');
 
-        return $this->respondWithData(new PropertyResource($property));
+        return $this->respondWithData(new FTenantResource($property));
     }
 
     /**
@@ -89,7 +90,7 @@ class FTenantController extends ApiController
      */
     public function updateProperty(Request $request, $uuid)
     {
-        $save = $this->propertyRepository->update($request->all(), $uuid);
+        $save = $this->fTenantRepository->update($request->all(), $uuid);
 
         if (!is_null($save) && $save['error']) {
             return $this->respondNotSaved($save['message']);
@@ -106,7 +107,7 @@ class FTenantController extends ApiController
     public function destroy($uuid)
     {
         
-        if ($this->propertyRepository->delete($uuid)) {
+        if ($this->fTenantRepository->delete($uuid)) {
             return $this->respondWithSuccess('Success !! Property has been deleted');
         }
         return $this->respondNotFound('Property not deleted');
@@ -133,7 +134,7 @@ class FTenantController extends ApiController
             $local_path = config('filesystems.disks.local.root') . DIRECTORY_SEPARATOR .'photos'.DIRECTORY_SEPARATOR. $fileNameToStore;
 
             // Update the property
-            $this->propertyRepository->update(
+            $this->fTenantRepository->update(
                 [
                     'property_photo' => $fileNameToStore
                 ], $data['property_id']);
@@ -166,10 +167,10 @@ class FTenantController extends ApiController
         if (array_key_exists('filter', $data)) {
             $filter = $data['filter'];
 
-			$data = $this->propertyRepository->search($filter, ['extra_charges', 'units', 'late_fees', 'utility_costs', 'payment_methods']);
-			return PropertyResource::collection($data);
+			$data = $this->fTenantRepository->search($filter, ['extra_charges', 'units', 'late_fees', 'utility_costs', 'payment_methods']);
+			return FTenantResource::collection($data);
 
-           // return $this->propertyRepository->search($filter, ['extra_charges', 'units', 'late_fees', 'utility_costs', 'payment_methods']);
+           // return $this->fTenantRepository->search($filter, ['extra_charges', 'units', 'late_fees', 'utility_costs', 'payment_methods']);
         }
     }
 
@@ -180,7 +181,7 @@ class FTenantController extends ApiController
     public function periods(Request $request) {
         $data = $request->all();
         if (array_key_exists('id', $data)) {
-            $property = $this->propertyRepository->getById($data['id']);
+            $property = $this->fTenantRepository->getById($data['id']);
             return PeriodResource::collection($property->periods);
         }
         return [];
