@@ -36,32 +36,30 @@ class FTenant extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'name',
-        'code',
+        'name ',
         'type',
-        'address',
+        'date_of_birth',
+        'id_number',
+        'passport_number',
+        'gender', // e.g apartment, commercial, duplex, house, mixed_use, other
+        'marit_status',
+        'tenant_number',
+        'phone',
+        'email',
         'city',
-        'state', // e.g apartment, commercial, duplex, house, mixed_use, other
-        'zip',
-        'note',
-        'rent_amount',
-        'size',
-        'link',
-        'has_parking',
-        'has_security_gard',
-        'has_electricity',
-        'has_gas',
-        'has_swiming_pool',
+        'state',
+        'country',
+        'postal_code',
+        'business_name',
+        'registration_number',
 
-        'isAvailable',
-        'isFeatured',
-        'isActive',
+        'employment_status',
+        'emergency_contact_name',
+		'employment_position',
 
-        'assign_user',
-		'short_description',
-		'long_description',
-		'number_units',
-
+        'business_industry',
+        'business_description',
+        'business_address',
 
         'created_by',
         'updated_by',
@@ -84,9 +82,8 @@ class FTenant extends BaseModel
          * @var array
          */
         'columns' => [
-            'faptl_properties.code' => 1,
-            'faptl_properties.name' => 1,
-            'faptl_properties.city' => 1,
+            'faptl_tenants.name' => 1,
+            'faptl_tenants.type' => 1,
         ]
     ];
 

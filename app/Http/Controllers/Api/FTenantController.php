@@ -57,11 +57,11 @@ class FTenantController extends ApiController
     }
 
     /**
-     * @param PropertyRequest $request
+     * @param FTenantRequest $request
      * @return array|mixed
      * @throws \Exception
      */
-    public function store(PropertyRequest $request)
+    public function store(FTenantRequest $request)
     {
         
         
@@ -83,7 +83,7 @@ class FTenantController extends ApiController
     }
 
     /**
-     * @param PropertyRequest $request
+     * @param FTenantRequest $request
      * @param $id
      * @return array|mixed
      * @throws \Exception
