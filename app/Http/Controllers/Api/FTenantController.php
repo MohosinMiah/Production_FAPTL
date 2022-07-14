@@ -113,7 +113,7 @@ class FTenantController extends ApiController
         return $this->respondNotFound('Tenant not deleted');
     }
 
-    /
+    
     /**
      * @param Request $request
      */

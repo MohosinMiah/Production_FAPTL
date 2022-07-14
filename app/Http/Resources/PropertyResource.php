@@ -12,6 +12,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
+use DB;
 
 class PropertyResource extends JsonResource
 {
@@ -80,4 +81,8 @@ class PropertyResource extends JsonResource
         }
         return $vacant;
     }
+
+	public function units(){
+		return DB::table('faptl_property_units')->first();
+	}
 }

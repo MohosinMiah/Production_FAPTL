@@ -30,6 +30,7 @@ class PropertyUnitResource extends JsonResource
 			'name'              => $this->name,
 			'floor'             => $this->floor,
 			'rent'              => $this->rent,
+			'unit_type'         => $this->unit_type,
 			'garadge_fee'       => $this->garadge_fee,
 			'electricity_fee'   => $this->electricity_fee,
 			'gas_fee'           => $this->gas_fee,

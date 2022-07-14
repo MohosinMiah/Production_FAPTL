@@ -13,6 +13,7 @@ namespace App\Models;
 use App\Traits\PropertyAccountsSetup;
 use App\Traits\SearchableTrait;
 use Illuminate\Support\Collection;
+use DB;
 
 class Property extends BaseModel
 {

@@ -51,7 +51,8 @@ class PropertyController extends ApiController
      */
     public function index()
     {
-        return  PropertyResource::collection( DB::table('faptl_properties')->get());
+        $data = DB::table('faptl_properties')->get();
+        return  PropertyResource::collection( $data );
 
     }
 
@@ -65,7 +66,13 @@ class PropertyController extends ApiController
         
         
         $data = $request->all();
-        $newProperty = $this->propertyRepository->create($data);
+        $save = $this->propertyRepository->create($data);
+        if (!is_null($save) && $save['error']) {
+            return $this->respondNotSaved($save['message']);
+        } else {
+            return $this->respondWithSuccess('Success !! Property has been created.');
+        }
+
     }
 
     /**
