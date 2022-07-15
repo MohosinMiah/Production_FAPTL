@@ -46,7 +46,9 @@ class FTenantResource extends JsonResource
 
 			'employment_status'         => $this->employment_status,
 			'emergency_contact_name'         => $this->emergency_contact_name,
-			'employment_position'         => $this->employment_position,
+			'emergency_contact_phone'       => $this->emergency_contact_phone,
+             'emergency_contact_email'    => $this->emergency_contact_name,
+			'employment_position'         => $this->emergency_contact_email,
 
 			'business_industry'         => $this->business_industry,
 			'business_description'         => $this->business_description,

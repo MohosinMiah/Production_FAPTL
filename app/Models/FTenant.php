@@ -56,6 +56,8 @@ class FTenant extends BaseModel
 
         'employment_status',
         'emergency_contact_name',
+		'emergency_contact_phone',
+        'emergency_contact_email',
 		'employment_position',
 
         'business_industry',
