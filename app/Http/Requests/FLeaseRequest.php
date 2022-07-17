@@ -15,53 +15,57 @@ use Illuminate\Validation\Rule;
 class FLeaseRequest extends BaseRequest
 {
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
-    {
+	/**
+	 * Get the validation rules that apply to the request.
+	 *
+	 * @return array
+	 */
+	public function rules()
+	{
 
-        $rules = [];
+		$rules = [];
 
-        switch ($this->method()) {
-            case 'GET':
-            case 'DELETE':
-                {
-                    return [];
-                    break;
-                }
-            case 'POST':
-                {
-                    $rules = [
-                     
-                        'type'=> '', // e.g apartment, commercial, duplex, house, mixed_use, other
-                        
-                        'created_by'=> '',
-                        'updated_by'=> '',
-                        'deleted_by'=> ''
-                    ];
+		switch ($this->method()) {
+			case 'GET':
+			case 'DELETE':
+				{
+					return [];
+					break;
+				}
+			case 'POST':
+				{
+					$rules = [
+					
+						'property_id'=> 'required', 
+						'unit_id'=> 'required', 
+						'lease_type'=> 'required', 
+						'rent_amount'=> 'required', 
+						'lease_start'=> 'required', 
+						'isActive'=> 'required', 
+					
+					];
 
-                    break;
-                }
-            case 'PUT':
-            case 'PATCH':
-                {
-                    $rules = [
-                       
-                        
-                            'created_by'=> '',
-                            'updated_by'=> '',
-                            'deleted_by'=> ''
-                    ];
-                    break;
-                }
-            default:
-                break;
-        }
+					break;
+				}
+			case 'PUT':
+			case 'PATCH':
+				{
+					$rules = [
+						'property_id'=> 'required', 
+						'unit_id'=> 'required', 
+						'lease_type'=> 'required', 
+						'rent_amount'=> 'required', 
+						'lease_start'=> 'required', 
+						'isActive'=> 'required', 
+						
+					];
+					break;
+				}
+			default:
+				break;
+		}
 
-        return $rules;
+		return $rules;
 
-    }
+	}
 }
