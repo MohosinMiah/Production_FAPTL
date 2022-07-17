@@ -37,32 +37,15 @@ class FLease extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'name',
-        'code',
-        'type',
-        'address',
-        'city',
-        'state', // e.g apartment, commercial, duplex, house, mixed_use, other
-        'zip',
-        'note',
+        'property_id',
+        'unit_id',
+        'lease_type',
         'rent_amount',
-        'size',
-        'link',
-        'has_parking',
-        'has_security_gard',
-        'has_electricity',
-        'has_gas',
-        'has_swiming_pool',
-
-        'isAvailable',
-        'isFeatured',
+        'lease_start',
+        'lease_end', // e.g apartment, commercial, duplex, house, mixed_use, other
+        'deposit_amount',
+        'late_fee_amount',
         'isActive',
-
-        'assign_user',
-		'short_description',
-		'long_description',
-		'number_units',
-
 
         'created_by',
         'updated_by',
