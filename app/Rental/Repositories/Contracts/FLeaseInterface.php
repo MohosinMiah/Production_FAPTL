@@ -7,8 +7,9 @@
  * Date: 17/12/2022
  * Time: 13:11
  */
+
 namespace App\Rental\Repositories\Contracts;
 
-interface PropertyInterface extends BaseInterface
+interface FLeaseInterface extends BaseInterface
 {
 }
