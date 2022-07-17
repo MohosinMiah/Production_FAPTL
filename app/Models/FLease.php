@@ -50,7 +50,7 @@ class FLease extends BaseModel
         'created_by',
         'updated_by',
         'deleted_by', 
-        
+
         'deleted_at'
     ];
 

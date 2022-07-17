@@ -30,20 +30,17 @@ class FLeaseController extends ApiController
      * @param LandlordInterface $landlordRepository
      * @param InvoiceInterface $invoiceRepository
      */
-    public function __construct(FLeaseInterface $fLeaseInterface, UnitInterface $unitRepository,
-                                LandlordInterface $landlordRepository, InvoiceInterface $invoiceRepository)
+    public function __construct(FLeaseInterface $fLeaseInterface
+    // , UnitInterface $unitRepository,
+    //                             LandlordInterface $landlordRepository, InvoiceInterface $invoiceRepository
+                                )
     {
         $this->fLeaseRepository = $fLeaseInterface;
-        $this->landlordRepository = $landlordRepository;
-        $this->unitRepository = $unitRepository;
-        $this->invoiceRepository = $invoiceRepository;
+        // $this->landlordRepository = $landlordRepository;
+        // $this->unitRepository = $unitRepository;
+        // $this->invoiceRepository = $invoiceRepository;
         $this->load = [
-            'fLease_type',
-			'landlord',
-			'payment_methods',
-			'extra_charges',
-			'late_fees',
-			'utility_costs'
+         
         ];
     }
 

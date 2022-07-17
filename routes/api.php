@@ -83,6 +83,7 @@ use App\Http\Controllers\Api\PropertyImageController;
 use App\Http\Controllers\Api\PropertyUnitController;
 use App\Http\Controllers\Api\PropertyUnitImageController;
 use App\Http\Controllers\Api\FTenantController;
+use App\Http\Controllers\Api\FLeaseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -194,7 +195,6 @@ Route::prefix('v1')->middleware(['auth:api,landlords,tenants', 'throttle:60,1'])
 
     Route::post('leases/search', [LeaseController::class, 'search']);
     Route::post('leases/terminate', [LeaseController::class, 'terminate']);
-    Route::apiResource('leases', LeaseController::class);
 
     Route::apiResource('tenant_types', TenantTypeController::class);
     // Route::apiResource('tenants', TenantController::class)
@@ -332,6 +332,12 @@ Route::prefix('v1')->middleware(['auth:api,landlords,tenants', 'throttle:60,1'])
 
 // *******************************   END  : MOHOSIN :  FTenant  ********************************************************** END
 
+
+ // *******************************  Start  : MOHOSIN : FLease  ************************************************* START
+ Route::apiResource('leases', FLeaseController::class)->middleware(['scope:view-property,create-property,edit-property,delete-property']);
+//  Route::POST('tenant/update/{id}', [FLeaseController::class,'updateTenant'])->middleware(['scope:view-property,create-property,edit-property,delete-property']);
+
+// *******************************   END  : MOHOSIN :  FLease  ********************************************************** END
 
 
 });

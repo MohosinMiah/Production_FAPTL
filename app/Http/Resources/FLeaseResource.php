@@ -25,38 +25,19 @@ class FLeaseResource extends JsonResource
     public function toArray($request)
     {
         return [
-			'id'                    => $this->id,
+			'id'                => $this->id,
 
-			'name'         => $this->name,
-			'code'         => $this->code,
-			'type'         => $this->type,
-			'address'         => $this->address,
-			'city'         => $this->city,
-			'state'         => $this->state,
-			'zip'         => $this->zip,
-			'note'         => $this->note,
-			'rent_amount'         => $this->rent_amount,
-			'size'         => $this->size,
-			'link'         => $this->link,
-			'isAvailable' => $this->isAvailable,
-			'isFeatured'         => $this->isFeatured,
+			'property_id'      => $this->property_id,
+			'unit_id'          => $this->unit_id,
+			'lease_type'       => $this->lease_type,
+			'rent_amount'      => $this->rent_amount,
+			'lease_start'      => $this->lease_start,
+			'lease_end'        => $this->lease_end,
+			'deposit_amount'   => $this->deposit_amount,
+	
 			'isActive'         => $this->isActive,
 
-			'assign_user'         => $this->assign_user,
-			'short_description'         => $this->short_description,
-			'long_description'         => $this->long_description,
-			'number_units'         => $this->number_units,
-
-			'has_parking'         => $this->has_parking,
-
-			'has_security_gard'         => $this->has_security_gard,
-
-			'has_electricity'         => $this->has_electricity,
-
-			'has_gas'         => $this->has_gas,
-
-			'has_swiming_pool'         => $this->has_swiming_pool,
-
+		
 			'deleted_by'        => $this->deleted_by,
 			'created_by'        => $this->created_by,
 			'updated_by'        => $this->updated_by,
@@ -67,22 +48,5 @@ class FLeaseResource extends JsonResource
         ];
     }
 
-    /**
-     * Units with zero active leases
-     * @param $units
-     * @return array
-     */
-    private function vacantUnits($units)
-    {
-        $vacant = [];
-        foreach ($units as $unit) {
-            if ($unit['leases_total'] == 0)
-                $vacant[] = $unit;
-        }
-        return $vacant;
-    }
-
-	public function units(){
-		return DB::table('faptl_property_units')->first();
-	}
+   
 }
