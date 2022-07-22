@@ -113,8 +113,8 @@ class FLeaseController extends ApiController
 	 */
 	public function destroy($uuid)
 	{
-		
-		if ($this->fLeaseRepository->delete($uuid)) {
+		if( $this->fLeaseRepository->delete( $uuid ) )
+		{
 			return $this->respondWithSuccess('Success !! FLease has been deleted');
 		}
 		return $this->respondNotFound('FLease not deleted');
