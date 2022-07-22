@@ -6,6 +6,11 @@ use App\Http\Requests\FLeaseRequest;
 use App\Http\Resources\FLeaseResource;
 use App\Rental\Repositories\Contracts\FLeaseInterface;
 
+use App\Http\Resources\PropertyResource;
+use App\Rental\Repositories\Contracts\PropertyInterface;
+
+use App\Rental\Repositories\Contracts\PropertyUnitInterface;
+use App\Http\Resources\PropertyUnitResource;
 
 use App\Http\Resources\PeriodResource;
 use App\Rental\Repositories\Contracts\InvoiceInterface;
@@ -21,7 +26,7 @@ class FLeaseController extends ApiController
 	/**  FLease
 	 * @var FLeaseInterface
 	 */
-	protected $fLeaseRepository, $load, $accountRepository, $unitRepository, $landlordRepository, $invoiceRepository;
+	protected $fLeaseRepository, $load, $propertyRepository, $propertyUnitRepository, $landlordRepository, $invoiceRepository;
 
 	/**
 	 * FLeaseController constructor.
@@ -30,12 +35,14 @@ class FLeaseController extends ApiController
 	 * @param LandlordInterface $landlordRepository
 	 * @param InvoiceInterface $invoiceRepository
 	 */
-	public function __construct(FLeaseInterface $fLeaseInterface
+	public function __construct(FLeaseInterface $fLeaseInterface, PropertyInterface $propertyInterface, PropertyUnitInterface $propertyUnitInterface
 	// , UnitInterface $unitRepository,
 	//                             LandlordInterface $landlordRepository, InvoiceInterface $invoiceRepository
 								)
 	{
 		$this->fLeaseRepository = $fLeaseInterface;
+		$this->propertyRepository = $propertyInterface;
+		$this->propertyUnitRepository = $propertyUnitInterface;
 		// $this->landlordRepository = $landlordRepository;
 		// $this->unitRepository = $unitRepository;
 		// $this->invoiceRepository = $invoiceRepository;
@@ -109,12 +116,29 @@ class FLeaseController extends ApiController
 		}
 	}
 
+
+		/**
+	 * @param $uuid
+	 * @return array
+	 * @throws \Exception
+	 * Get Property unit list based on property ID 
+	 */
+	
+	public function getPropertyUnitsByPropertyID( $uuid )
+	{
+		$data = PropertyUnitResource::collection( DB::table('faptl_property_units')->where( 'property_id', $uuid )->get() );
+		return $data;
+
+	}
+
+
+
 	/**
 	 * @param $uuid
 	 * @return array
 	 * @throws \Exception
 	 */
-	public function destroy($uuid)
+	public function destroy( $uuid )
 	{
 		if( $this->fLeaseRepository->delete( $uuid ) )
 		{
@@ -123,51 +147,11 @@ class FLeaseController extends ApiController
 		return $this->respondNotFound('FLease not deleted');
 	}
 
-	/**
-	 * @param Request $request
-	 */
-	public function uploadPhoto(Request $request) {
-		$data = $request->all();
-		$fileNameToStore = '';
-		// Upload logo
-		if($request->hasFile('fLease_photo')) {
-			$filenameWithExt = $request->file('fLease_photo')->getClientOriginalName();
-			// Get just filename
-			$filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-			// Get just ext
-			$extension = $request->file('fLease_photo')->getClientOriginalExtension();
-			// Filename to store
-			$fileNameToStore = $filename.'_'.time().'.'.$extension;
-			$path = $request->file('fLease_photo')->storeAs('photos', $fileNameToStore);
-			$data['fLease_photo'] = $fileNameToStore;
 
-			$local_path = config('filesystems.disks.local.root') . DIRECTORY_SEPARATOR .'photos'.DIRECTORY_SEPARATOR. $fileNameToStore;
 
-			// Update the fLease
-			$this->fLeaseRepository->update(
-				[
-					'fLease_photo' => $fileNameToStore
-				], $data['fLease_id']);
-		}
-		return json_encode($fileNameToStore);
-		// also, delete previous image file from server
-	// $this->memberRepository->update(array_filter($data), $data['id']);
-	}
 
-	/**
-	 * @param Request $request
-	 */
-	public function profilePic(Request $request)
-	{
-		$data = $request->all();
-		if( array_key_exists('file_path', $data) ) {
-			$file_path = $data['file_path'];
-			$local_path = config('filesystems.disks.local.root') . DIRECTORY_SEPARATOR .'photos'.DIRECTORY_SEPARATOR. $file_path;
-			return response()->file($local_path);
-		}
-		return $this->respondNotFound('file_path not provided');
-	}
 
+	
 	/**
 	 * @param Request $request
 	 * @return mixed

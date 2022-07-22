@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\PropertyRequest;
-use App\Http\Resources\PeriodResource;
 use App\Http\Resources\PropertyResource;
+use App\Rental\Repositories\Contracts\PropertyInterface;
+
+use App\Http\Resources\PeriodResource;
 use App\Rental\Repositories\Contracts\InvoiceInterface;
 use App\Rental\Repositories\Contracts\LandlordInterface;
-use App\Rental\Repositories\Contracts\PropertyInterface;
 use App\Rental\Repositories\Contracts\UnitInterface;
 use App\Traits\CommunicationMessage;
 use Illuminate\Http\Request;

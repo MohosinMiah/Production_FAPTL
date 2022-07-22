@@ -336,7 +336,10 @@ Route::prefix('v1')->middleware(['auth:api,landlords,tenants', 'throttle:60,1'])
  // *******************************  Start  : MOHOSIN : FLease  ************************************************* START
  Route::apiResource('leases', FLeaseController::class )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
  Route::POST( 'lease/update/{id}', [ FLeaseController::class,'updateFLease' ] )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
-
+ 
+//  Get Property unit list based on property ID 
+ Route::GET( 'lease/unit_list/property/{id}', [ FLeaseController::class,'getPropertyUnitsByPropertyID' ] )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
+ 
 // *******************************   END  : MOHOSIN :  FLease  ********************************************************** END
 
 
