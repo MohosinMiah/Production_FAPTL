@@ -334,8 +334,8 @@ Route::prefix('v1')->middleware(['auth:api,landlords,tenants', 'throttle:60,1'])
 
 
  // *******************************  Start  : MOHOSIN : FLease  ************************************************* START
- Route::apiResource('leases', FLeaseController::class)->middleware(['scope:view-property,create-property,edit-property,delete-property']);
-//  Route::POST('tenant/update/{id}', [FLeaseController::class,'updateTenant'])->middleware(['scope:view-property,create-property,edit-property,delete-property']);
+ Route::apiResource('leases', FLeaseController::class )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
+ Route::POST( 'lease/update/{id}', [ FLeaseController::class,'updateFLease' ] )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
 
 // *******************************   END  : MOHOSIN :  FLease  ********************************************************** END
 

@@ -95,15 +95,18 @@ class FLeaseController extends ApiController
 	 * @return array|mixed
 	 * @throws \Exception
 	 */
-	public function updateFLease(Request $request, $uuid)
+	public function updateFLease( Request $request, $uuid )
 	{
-		$save = $this->fLeaseRepository->update($request->all(), $uuid);
+		$save = $this->fLeaseRepository->update( $request->all(), $uuid );
 
-		if (!is_null($save) && $save['error']) {
+		if( !is_null( $save ) && $save['error'] )
+		{
 			return $this->respondNotSaved($save['message']);
-		} else
-
+		}
+		else
+		{
 			return $this->respondWithSuccess('Success !! FLease has been updated.');
+		}
 	}
 
 	/**
