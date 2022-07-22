@@ -27,15 +27,17 @@ class FLeaseResource extends JsonResource
         return [
 			'id'                => $this->id,
 
-			'property_id'      => $this->property_id,
-			'unit_id'          => $this->unit_id,
-			'lease_type'       => $this->lease_type,
-			'rent_amount'      => $this->rent_amount,
-			'lease_start'      => $this->lease_start,
-			'lease_end'        => $this->lease_end,
-			'deposit_amount'   => $this->deposit_amount,
+			'property_id'       => $this->property_id,
+            'property'          => DB::table( 'faptl_properties' )->where( 'id', $this->property_id )->first(),
+			'unit_id'           => $this->unit_id,
+			'property_units'    => DB::table( 'faptl_property_units' )->where( 'id', $this->unit_id )->first(),
+			'lease_type'        => $this->lease_type,
+			'rent_amount'       => $this->rent_amount,
+			'lease_start'       => $this->lease_start,
+			'lease_end'         => $this->lease_end,
+			'deposit_amount'    => $this->deposit_amount,
 	
-			'isActive'         => $this->isActive,
+			'isActive'          => $this->isActive,
 
 		
 			'deleted_by'        => $this->deleted_by,
