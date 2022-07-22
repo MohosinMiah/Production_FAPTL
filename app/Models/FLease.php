@@ -2,7 +2,7 @@
 /**
  * Created by PhpStorm.
  * User: kevin
- * Email: robisignals@gmail.com
+ * Email: robisignals@gmacil.com
  * WhatsApp: +254724475357
  * Date: 14/04/2020
  * Time: 12:58
@@ -42,7 +42,7 @@ class FLease extends BaseModel
         'lease_type',
         'rent_amount',
         'lease_start',
-        'lease_end', // e.g apartment, commercial, duplex, house, mixed_use, other
+        'lease_end',
         'deposit_amount',
         'late_fee_amount',
         'isActive',
