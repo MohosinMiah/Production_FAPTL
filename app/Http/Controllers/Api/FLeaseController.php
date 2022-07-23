@@ -126,6 +126,7 @@ class FLeaseController extends ApiController
 	
 	public function getPropertyUnitsByPropertyID( $uuid )
 	{
+		$data = [];
 		$data = PropertyUnitResource::collection( DB::table('faptl_property_units')->where( 'property_id', $uuid )->get() );
 		return $data;
 
