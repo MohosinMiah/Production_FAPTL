@@ -25,8 +25,8 @@ class PropertyResource extends JsonResource
     public function toArray($request)
     {
         return [
-			'id'                    => $this->id,
-			'property_units'    => DB::table( 'faptl_property_units' )->where( 'property_id', $this->id )->get(),
+			'id'              => $this->id,
+			// 'property_units'  => DB::table( 'faptl_property_units' )->where( 'property_id', $this->id )->get(),
 			'name'         => $this->name,
 			'code'         => $this->code,
 			'type'         => $this->type,

@@ -6,6 +6,13 @@ use App\Http\Requests\PropertyRequest;
 use App\Http\Resources\PropertyResource;
 use App\Rental\Repositories\Contracts\PropertyInterface;
 
+
+use App\Http\Requests\PropertyUnitRequest;
+use App\Http\Resources\PropertyUnitResource;
+use App\Rental\Repositories\Contracts\PropertyUnitInterface;
+
+
+
 use App\Http\Resources\PeriodResource;
 use App\Rental\Repositories\Contracts\InvoiceInterface;
 use App\Rental\Repositories\Contracts\LandlordInterface;
@@ -20,7 +27,7 @@ class PropertyController extends ApiController
     /**
      * @var PropertyInterface
      */
-    protected $propertyRepository, $load, $accountRepository, $unitRepository, $landlordRepository, $invoiceRepository;
+    protected $propertyRepository, $propertyUnitRepository, $load, $accountRepository, $unitRepository, $landlordRepository, $invoiceRepository;
 
     /**
      * PropertyController constructor.
@@ -29,10 +36,12 @@ class PropertyController extends ApiController
      * @param LandlordInterface $landlordRepository
      * @param InvoiceInterface $invoiceRepository
      */
-    public function __construct(PropertyInterface $propertyInterface, UnitInterface $unitRepository,
+    public function __construct(PropertyInterface $propertyInterface, PropertyUnitInterface $propertyUnitInterface, UnitInterface $unitRepository,
                                 LandlordInterface $landlordRepository, InvoiceInterface $invoiceRepository)
     {
         $this->propertyRepository = $propertyInterface;
+		$this->propertyUnitRepository = $propertyUnitInterface;
+
         $this->landlordRepository = $landlordRepository;
         $this->unitRepository = $unitRepository;
         $this->invoiceRepository = $invoiceRepository;
@@ -128,11 +137,13 @@ class PropertyController extends ApiController
      */
     public function propertyDetails( $uuid )
     {
-        $property = DB::table('faptl_properties')->where( 'id', $uuid )->get();
-        if(!$property)
-            return $this->respondNotFound('Property not found.');
+        $propertyUnitByUnit = DB::table( 'faptl_property_units' )->where( 'property_id', $uuid )->get();
+        if( !$propertyUnitByUnit )
+        {
+            return $this->respondNotFound('Property Unit not found.');
+        }
 
-        return $this->respondWithData(new PropertyResource($property));
+        return PropertyUnitResource::collection( $propertyUnitByUnit );
     }
 
 
