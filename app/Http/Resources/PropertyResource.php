@@ -26,7 +26,7 @@ class PropertyResource extends JsonResource
     {
         return [
 			'id'                    => $this->id,
-
+			'property_units'    => DB::table( 'faptl_property_units' )->where( 'property_id', $this->id )->get(),
 			'name'         => $this->name,
 			'code'         => $this->code,
 			'type'         => $this->type,

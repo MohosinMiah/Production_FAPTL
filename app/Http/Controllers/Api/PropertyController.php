@@ -99,8 +99,8 @@ class PropertyController extends ApiController
     {
         $save = $this->propertyRepository->update($request->all(), $uuid);
 
-        if (!is_null($save) && $save['error']) {
-            return $this->respondNotSaved($save['message']);
+        if (is_null($save)) {
+            return $this->respondNotSaved('Error !! Property has been not updated.');
         } else
 
             return $this->respondWithSuccess('Success !! Property has been updated.');
@@ -119,6 +119,22 @@ class PropertyController extends ApiController
         }
         return $this->respondNotFound('Property not deleted');
     }
+
+
+
+    /**
+     * @param $uuid
+     * @return mixed
+     */
+    public function propertyDetails( $uuid )
+    {
+        $property = DB::table('faptl_properties')->where( 'id', $uuid )->get();
+        if(!$property)
+            return $this->respondNotFound('Property not found.');
+
+        return $this->respondWithData(new PropertyResource($property));
+    }
+
 
     /**
      * @param Request $request

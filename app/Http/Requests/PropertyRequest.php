@@ -36,7 +36,7 @@ class PropertyRequest extends BaseRequest
                 {
                     $rules = [
                       //  'agent_id' => 'exists:agents,id',
-                        'code'          => 'required|unique:faptl_properties',
+                        'code'          => 'required', // |unique:faptl_properties
                         'type'=> '', // e.g apartment, commercial, duplex, house, mixed_use, other
                         
                         'created_by'=> '',
@@ -50,10 +50,11 @@ class PropertyRequest extends BaseRequest
             case 'PATCH':
                 {
                     $rules = [
-                        'code' => ['required', Rule::unique('faptl_properties')->ignore($this->property, 'id')
-                            ->where(function ($query) {
-                                $query->where('deleted_at', NULL);
-                            })],
+                        'code' => 'required',
+                            // ['required', Rule::unique('faptl_properties')->ignore($this->property, 'id')
+                            // ->where(function ($query) {
+                            //     $query->where('deleted_at', NULL);
+                            // })],
                             'type'=> '', // e.g apartment, commercial, duplex, house, mixed_use, other
                         
                             'created_by'=> '',

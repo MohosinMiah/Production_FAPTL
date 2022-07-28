@@ -106,14 +106,9 @@ class FLeaseController extends ApiController
 	{
 		$save = $this->fLeaseRepository->update( $request->all(), $uuid );
 
-		if( !is_null( $save ) && $save['error'] )
-		{
-			return $this->respondNotSaved($save['message']);
-		}
-		else
-		{
+		
 			return $this->respondWithSuccess('Success !! FLease has been updated.');
-		}
+		
 	}
 
 
