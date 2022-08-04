@@ -39,11 +39,12 @@ class FLease extends BaseModel
     protected $fillable = [
         'property_id',
         'unit_id',
-        'lease_type',
+        'tenant_id',
         'rent_amount',
+        'will_pay',
+        'total_will_pay',
         'lease_start',
         'lease_end',
-        'deposit_amount',
         'late_fee_amount',
         'isActive',
 
