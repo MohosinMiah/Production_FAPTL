@@ -37,12 +37,12 @@ class FTenantController extends ApiController
 		$this->unitRepository = $unitRepository;
 		$this->invoiceRepository = $invoiceRepository;
 		$this->load = [
-			'Tenant_type',
-			'landlord',
-			'payment_methods',
-			'extra_charges',
-			'late_fees',
-			'utility_costs'
+			// 'Tenant_type',
+			// 'landlord',
+			// 'payment_methods',
+			// 'extra_charges',
+			// 'late_fees',
+			// 'utility_costs'
 		];
 	}
 
