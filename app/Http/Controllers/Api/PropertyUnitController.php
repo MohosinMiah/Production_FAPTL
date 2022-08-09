@@ -55,7 +55,7 @@ class PropertyUnitController extends ApiController
 	public function index()
 	{
 	
-		$data = PropertyUnitResource::collection( DB::table('faptl_property_units')->get() );
+		$data = PropertyUnitResource::collection( DB::table('faptl_property_units')->where( 'deleted_at' , '=', NULL )->get() );
 
 		return $this->respondWithData( $data );
 	}

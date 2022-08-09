@@ -57,7 +57,7 @@ class FLeaseController extends ApiController
 	 */
 	public function index()
 	{
-		$data = DB::table('faptl_fleases')->get();
+		$data = DB::table('faptl_fleases')->where( 'deleted_at' , '=', NULL )->get();
 		return  FLeaseResource::collection( $data );
 
 	}
