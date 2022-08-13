@@ -52,7 +52,7 @@ class FTenantController extends ApiController
 	 */
 	public function index()
 	{
-		return  FTenantResource::collection( DB::table('faptl_tenants')->where('deleted_at', NULL)->get());
+		return  FTenantResource::collection( DB::table('faptl_tenants')->get());
 
 	}
 
@@ -68,8 +68,8 @@ class FTenantController extends ApiController
 		$data = $request->all();
 		$save = $this->fTenantRepository->create($data);
 		
-		if (!is_null($save) && $save['error']) {
-			return $this->respondNotSaved($save['message']);
+		if (!is_null($save)) {
+			return $this->respondNotSaved("Error !! Tenent Not Saved");
 		} else {
 			return $this->respondWithSuccess('Success !! Tenant has been created.');
 		}
@@ -98,8 +98,8 @@ class FTenantController extends ApiController
 	{
 		$save = $this->fTenantRepository->update($request->all(), $uuid);
 
-		if (!is_null($save) && $save['error']) {
-			return $this->respondNotSaved($save['message']);
+		if (is_null($save) ) {
+			return $this->respondNotSaved("Tenent did not update");
 		} else
 
 			return $this->respondWithSuccess('Success !! Tenant has been updated.');

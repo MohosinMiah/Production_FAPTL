@@ -103,8 +103,7 @@ class PropertyUnitController extends ApiController
 	{
 	
 		$save = $this->propertyUnitRepository->update($request->all(), $uuid);
-
-		if (!is_null($save) && $save['error']) {
+		if (is_null($save) && $save['error']) {
 			return $this->respondNotSaved($save['message']);
 		} else
 
