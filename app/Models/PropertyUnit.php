@@ -37,16 +37,9 @@ class PropertyUnit extends BaseModel
      */
     protected $fillable = [
         'property_id',
-        'type',
         'name',
         'floor',
         'rent',
-        'garadge_fee', 
-        'electricity_fee',
-        'gas_fee',
-        'water_fee',
-        'service_fee',
-        'unit_type',
         'size',
         'total_room',
         'bed_room',

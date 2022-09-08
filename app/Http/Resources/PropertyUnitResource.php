@@ -26,16 +26,9 @@ class PropertyUnitResource extends JsonResource
         return [
 			'id'                => $this->id,
 			'property_id'       => $this->property_id,
-			'type'              => $this->type,
 			'name'              => $this->name,
 			'floor'             => $this->floor,
 			'rent'              => $this->rent,
-			'unit_type'         => $this->unit_type,
-			'garadge_fee'       => $this->garadge_fee,
-			'electricity_fee'   => $this->electricity_fee,
-			'gas_fee'           => $this->gas_fee,
-			'water_fee'         => $this->water_fee,
-			'service_fee'       => $this->service_fee,
 			'size'              => $this->size,
 			'total_room'        => $this->total_room,
 			'bed_room'          => $this->bed_room,
@@ -44,7 +37,6 @@ class PropertyUnitResource extends JsonResource
 			'note'              => $this->note,
 			'isAvailable'       => $this->isAvailable,
 			'isFeatured'        => $this->isFeatured,
-			
 			'isActive'          => $this->isActive,
 			
 			'deleted_by'        => $this->deleted_by,

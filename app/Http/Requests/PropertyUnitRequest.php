@@ -35,8 +35,8 @@ class PropertyUnitRequest extends BaseRequest
 			case 'POST':
 				{
 					$rules = [
+						'name'                 => 'required',
 						'property_id'          => 'required',
-						'type'                 => 'required',  
 						'floor'                => 'required',  
 						'rent'                 => 'required',  
 						'total_room'           => 'required',
@@ -51,8 +51,9 @@ class PropertyUnitRequest extends BaseRequest
 			case 'PATCH':
 				{
 					$rules = [
+						'name'                 => 'required',
 						'property_id'          => 'required',
-						'type'                 => 'required',  
+						// 'type'                 => 'required',  
 						'floor'                => 'required',  
 						'rent'                 => 'required',  
 						'total_room'           => 'required',

@@ -25,14 +25,11 @@ class FTenantResource extends JsonResource
     {
         return [
 			'id'                    => $this->id,
-
 			'name'         => $this->name,
-			'type'         => $this->type,
 			'date_of_birth'         => $this->date_of_birth,
 			'id_number'         => $this->id_number,
 			'passport_number'         => $this->passport_number,
 			'gender'         => $this->gender,
-			'marit_status'         => $this->marit_status,
 			'tenant_number'         => $this->tenant_number,
 			'phone'         => $this->phone,
 			'email'         => $this->email,
@@ -41,18 +38,11 @@ class FTenantResource extends JsonResource
 			'country'         => $this->country,
 			'postal_code'         => $this->postal_code,
 
-			'business_name'         => $this->business_name,
-			'registration_number'         => $this->registration_number,
-
-			'employment_status'         => $this->employment_status,
+			
 			'emergency_contact_name'         => $this->emergency_contact_name,
 			'emergency_contact_phone'       => $this->emergency_contact_phone,
              'emergency_contact_email'    => $this->emergency_contact_name,
-			'employment_position'         => $this->emergency_contact_email,
 
-			'business_industry'         => $this->business_industry,
-			'business_description'         => $this->business_description,
-			'business_address'         => $this->business_address,
 
 			'deleted_by'        => $this->deleted_by,
 			'created_by'        => $this->created_by,

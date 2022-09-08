@@ -37,12 +37,10 @@ class FTenant extends BaseModel
      */
     protected $fillable = [
         'name',
-        'type',
         'date_of_birth',
         'id_number',
         'passport_number',
         'gender', // e.g apartment, commercial, duplex, house, mixed_use, other
-        'marit_status',
         'tenant_number',
         'phone',
         'email',
@@ -51,18 +49,9 @@ class FTenant extends BaseModel
         'country',
         'postal_code',
         
-        'business_name',
-        'registration_number',
-
-        'employment_status',
         'emergency_contact_name',
 		'emergency_contact_phone',
         'emergency_contact_email',
-		'employment_position',
-
-        'business_industry',
-        'business_description',
-        'business_address',
 
         'created_by',
         'updated_by',
