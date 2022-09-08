@@ -41,12 +41,20 @@ class FLease extends BaseModel
         'unit_id',
         'tenant_id',
         'rent_amount',
-        'will_pay',
-        'total_will_pay',
+
+        'security_deposit',
+        'pet_security_deposit',
+
+        'invoice_starting_date',
+        'invoice_amount',
+        'prorated_amount',
+        'prorated_starting_date',
+
         'lease_start',
         'lease_end',
         'late_fee_amount',
         'isActive',
+
 
         'created_by',
         'updated_by',
