@@ -84,6 +84,7 @@ use App\Http\Controllers\Api\PropertyUnitController;
 use App\Http\Controllers\Api\PropertyUnitImageController;
 use App\Http\Controllers\Api\FTenantController;
 use App\Http\Controllers\Api\FLeaseController;
+use App\Http\Controllers\Api\FPaymentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -216,11 +217,11 @@ Route::prefix('v1')->middleware(['auth:api,landlords,tenants', 'throttle:60,1'])
     Route::apiResource('utilities', UtilityController::class);
     Route::apiResource('utility_bills', UtilityBillController::class);
 
-    Route::apiResource('/payments', PaymentController::class)->except(['update', 'delete']);
-    Route::post('payments/receipt', [PaymentController::class, 'downloadReceipt']);
+    // Route::apiResource('/payments', PaymentController::class)->except(['update', 'delete']);
+    // Route::post('payments/receipt', [PaymentController::class, 'downloadReceipt']);
 
-    Route::post('payments/approve', [PaymentController::class, 'approve']);
-    Route::post('payments/cancel',  [PaymentController::class, 'cancel']);
+    // Route::post('payments/approve', [PaymentController::class, 'approve']);
+    // Route::post('payments/cancel',  [PaymentController::class, 'cancel']);
 
     Route::apiResource('/tasks', TaskController::class);
     Route::apiResource('/task_categories', TaskCategoryController::class);
@@ -342,6 +343,19 @@ Route::prefix('v1')->middleware(['auth:api,landlords,tenants', 'throttle:60,1'])
  Route::GET( 'lease/unit_list/property/{id}', [ FLeaseController::class,'getPropertyUnitsByPropertyID' ] )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
  
 // *******************************   END  : MOHOSIN :  FLease  ********************************************************** END
+
+
+ // *******************************  Start  : MOHOSIN : FLease  ************************************************* START
+ Route::apiResource('payments', FPaymentController::class )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
+ Route::POST( 'payment/update/{id}', [ FPaymentController::class,'updatePayment' ] )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
+ 
+//  Get Property unit list based on property ID 
+ Route::GET( 'payment/unit_list/property/{id}', [ FPaymentController::class,'getPropertyUnitsByPropertyID' ] )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
+ 
+// *******************************   END  : MOHOSIN :  FLease  ********************************************************** END
+
+
+
 
 
 });

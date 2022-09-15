@@ -77,6 +77,7 @@ class RentalServiceProvider extends ServiceProvider
         'PropertyUnitImage',
         'FTenant',
         'FLease',
+        'FPayment',
     ];
 
     /**

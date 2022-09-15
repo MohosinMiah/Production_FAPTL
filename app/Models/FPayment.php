@@ -15,7 +15,7 @@ use App\Traits\SearchableTrait;
 use Illuminate\Support\Collection;
 use DB;
 
-class FLease extends BaseModel
+class FPayment extends BaseModel
 {
     use SearchableTrait, PropertyAccountsSetup;
     /**
@@ -23,7 +23,7 @@ class FLease extends BaseModel
      *
      * @var string
      */
-    protected $table = 'faptl_fleases';
+    protected $table = 'faptl_payments';
 
     /**
      * Main table primary key
@@ -40,21 +40,16 @@ class FLease extends BaseModel
         'property_id',
         'unit_id',
         'tenant_id',
-        'rent_amount',
+        // 'lease_id',
 
-        'security_deposit',
-        'pet_security_deposit',
+        'payment_purpose',
 
-        'invoice_starting_date',
-        'invoice_amount',
-        'prorated_amount',
-        'prorated_starting_date',
+        'payment_amount',
+        'payment_date',
+        'payment_note',
+        'status',
 
-        'lease_start',
-        'lease_end',
-        'late_fee_amount',
         'isActive',
-
 
         'created_by',
         'updated_by',
@@ -77,7 +72,7 @@ class FLease extends BaseModel
          * @var array
          */
         'columns' => [
-            'faptl_fLeases.id' => 1,
+            'faptl_payments.id' => 1,
         ]
     ];
 
