@@ -20,6 +20,8 @@ use App\Traits\CommunicationMessage;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
 
 class FPaymentController extends ApiController
 {
@@ -145,6 +147,54 @@ class FPaymentController extends ApiController
 
 
 
+	public function filterList( Request $request)
+	{
+		$payments = DB::table('faptl_payments')->select('*');
+
+		$property_id         =  $request->property_id;
+		if( !empty( $property_id ) || $property_id != NUll || $property_id != null || $property_id != '' )
+		{
+			// $propertySql = ' property_id = ' . $property_id;
+			$payments->where('property_id', $property_id);
+		}
+		$unit_id             =  $request->unit_id;
+		if( !empty( $unit_id ) || $unit_id != NUll || $unit_id != null || $unit_id != '' )
+		{
+			// $unitSql = ' AND unit_id = ' . $unit_id;
+			$payments->where('unit_id', $unit_id);
+
+		}
+
+		$paymentStartDate     =  $request->paymentStartDate;
+		$paymentEndDate       =  $request->paymentEndDate;
+
+		// $paymentStartDate = Carbon::createFromFormat( 'Y-m-d', $paymentStartDate );
+        // $paymentEndDate = Carbon::createFromFormat( 'Y-m-d', $paymentEndDate );
+		// die( date('Y-m-d',Carbon::now()) );
+		if( !empty( $paymentStartDate ) || $paymentStartDate != NUll || $paymentStartDate != null || $paymentStartDate != '' )
+		{	
+			// $paymentStartDate = $paymentStartDate . 
+			$payments->where('payment_date', '>=', $paymentStartDate);
+		}
+
+		if( !empty( $paymentEndDate ) || $paymentEndDate != NUll || $paymentEndDate != null || $paymentEndDate != '' )
+		{
+						// $paymentStartDate = $paymentStartDate . 
+
+			$payments->where('payment_date', '<=', $paymentEndDate);
+
+		}
+		else{
+			$payments->where('payment_date', '<=', date( 'Y-m-d', strtotime( Carbon::now() ) ));
+		}
+
+die( $payments->get() );
+		$payments->get();
+
+
+
+
+	}
 
 
 	
