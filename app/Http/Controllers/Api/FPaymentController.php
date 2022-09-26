@@ -147,7 +147,7 @@ class FPaymentController extends ApiController
 
 
 
-	public function filterList( Request $request)
+	public function filterPaymentList( Request $request)
 	{
 		$payments = DB::table('faptl_payments')->select('*');
 
@@ -173,27 +173,19 @@ class FPaymentController extends ApiController
 		// die( date('Y-m-d',Carbon::now()) );
 		if( !empty( $paymentStartDate ) || $paymentStartDate != NUll || $paymentStartDate != null || $paymentStartDate != '' )
 		{	
-			// $paymentStartDate = $paymentStartDate . 
 			$payments->where('payment_date', '>=', $paymentStartDate);
 		}
 
 		if( !empty( $paymentEndDate ) || $paymentEndDate != NUll || $paymentEndDate != null || $paymentEndDate != '' )
 		{
-						// $paymentStartDate = $paymentStartDate . 
-
 			$payments->where('payment_date', '<=', $paymentEndDate);
-
 		}
-		else{
+		else
+		{
 			$payments->where('payment_date', '<=', date( 'Y-m-d', strtotime( Carbon::now() ) ));
 		}
-
-die( $payments->get() );
-		$payments->get();
-
-
-
-
+		$datas = $payments->get();
+		return FPaymentResource::collection( $datas );
 	}
 
 

@@ -348,7 +348,7 @@ Route::prefix('v1')->middleware(['auth:api,landlords,tenants', 'throttle:60,1'])
  // *******************************  Start  : MOHOSIN : FLease  ************************************************* START
  Route::apiResource('payments', FPaymentController::class )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
  Route::POST( 'payment/update/{id}', [ FPaymentController::class,'updatePayment' ] )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
- Route::POST( 'payments/search', [ FPaymentController::class,'filterList' ] )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
+ Route::POST( 'payments/search', [ FPaymentController::class,'filterPaymentList' ] )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
  
 //  Get Property unit list based on property ID 
  Route::GET( 'payment/unit_list/property/{id}', [ FPaymentController::class,'getPropertyUnitsByPropertyID' ] )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
