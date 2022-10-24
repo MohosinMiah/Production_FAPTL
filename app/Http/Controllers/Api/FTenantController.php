@@ -52,7 +52,7 @@ class FTenantController extends ApiController
 	 */
 	public function index()
 	{
-		return  FTenantResource::collection( DB::table('faptl_tenants')->get());
+		return  FTenantResource::collection( DB::table('faptl_tenants')->where( 'deleted_at' , '=', NULL )->orderBy('name', 'ASC')->get());
 
 	}
 
