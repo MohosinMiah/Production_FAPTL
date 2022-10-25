@@ -353,7 +353,19 @@ class FPaymentController extends ApiController
 	}
 
 	
-
+	/**
+	 * @param Request $request
+	 * Payment Status Changed Mark All Recorded to Deposited
+	 */
+	
+	public function mark_all_deposited(  )
+	{
+		DB::table('faptl_payments')->where( 'deleted_at' , '=', NULL )->where( 'status' , '=', 'RECORDED' )->update([
+			'status' => 'DEPOSITED'
+		 ]);
+		
+		return $this->respondWithSuccess('Success !! FPayment All Status has been updated Recorded To Deposited.');
+	}
 
 	/**
 	 * @param Request $request

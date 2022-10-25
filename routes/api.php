@@ -358,6 +358,7 @@ Route::prefix('v1')->middleware(['auth:api,landlords,tenants', 'throttle:60,1'])
 
  Route::GET( 'payment/change/recorded/{id}', [ FPaymentController::class,'statusRecorded' ] )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
  Route::GET( 'payment/change/deposited/{id}', [ FPaymentController::class,'statusDeposited' ] )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
+ Route::GET( 'payments/mark/all/deposited', [ FPaymentController::class,'mark_all_deposited' ] )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
  
 
 //  Get Property unit list based on property ID 
