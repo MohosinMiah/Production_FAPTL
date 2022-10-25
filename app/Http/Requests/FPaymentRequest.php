@@ -36,7 +36,7 @@ class FPaymentRequest extends BaseRequest
 				{
 					$rules = [
 						'property_id'=> 'required', 
-						'unit_id'=> 'required', 
+						// 'unit_id'=> 'required', 
 						'tenant_id'=> 'required', 
 						'payment_purpose'=> 'required', 
 						'payment_amount'=> 'required', 
@@ -50,7 +50,7 @@ class FPaymentRequest extends BaseRequest
 				{
 					$rules = [
 						'property_id'=> 'required', 
-						'unit_id'=> 'required', 
+						// 'unit_id'=> 'required', 
 						'tenant_id'=> 'required', 
 						'payment_purpose'=> 'required', 
 						'payment_amount'=> 'required', 

@@ -29,7 +29,7 @@ class FLeaseResource extends JsonResource
 			'property_id'         => $this->property_id,
             'property'            => DB::table( 'faptl_properties' )->where( 'id', $this->property_id )->first(),
 			'unit_id'             => $this->unit_id,
-			'property_unit'       => DB::table( 'faptl_property_units' )->where( 'id', $this->unit_id )->first(),
+			'property_unit'       =>  $this->loadUnit( $this->unit_id ),
 			'tenant_id'           => $this->tenant_id,
 			'tenant'              => DB::table( 'faptl_tenants' )->where( 'id', $this->tenant_id )->first(),
 			'rent_amount'         => $this->rent_amount,
@@ -56,4 +56,17 @@ class FLeaseResource extends JsonResource
 
         ];
     }
+
+	public function loadUnit( $unitID ) {
+
+		if( $unitID > 0 || $unitID != NULL || $unitID != '' )
+		{
+			return DB::table( 'faptl_property_units' )->where( 'id', $this->unit_id )->first();
+		}
+		else
+		{
+			return 'NULL';
+		}
+
+	}
 }

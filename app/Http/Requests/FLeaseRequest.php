@@ -37,11 +37,11 @@ class FLeaseRequest extends BaseRequest
 					$rules = [
 					
 						'property_id'=> 'required', 
-						'unit_id'=> 'required', 
+						// 'unit_id'=> 'required', 
 						'tenant_id'=> 'required', 
 						'rent_amount'=> 'required', 
 						'lease_start'=> 'required', 
-						'isActive'=> 'required', 
+						// 'isActive'=> 'required', 
 					
 					];
 
@@ -52,11 +52,11 @@ class FLeaseRequest extends BaseRequest
 				{
 					$rules = [
 						'property_id'=> 'required', 
-						'unit_id'=> 'required', 
+						// 'unit_id'=> 'required', 
 						'tenant_id'=> 'required', 
 						'rent_amount'=> 'required', 
 						'lease_start'=> 'required', 
-						'isActive'=> 'required', 
+						// 'isActive'=> 'required', 
 						
 					];
 					break;

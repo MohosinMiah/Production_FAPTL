@@ -37,21 +37,21 @@ public function rules()
 				$rules = [
 					//  'agent_id' => 'exists:agents,id',
 					'name'          => 'required',
-					'date_of_birth'          => 'required',
-					'gender'          => 'required',
-					'tenant_number'          => 'required',
-					'id_number'          => 'required',
+					// 'date_of_birth'          => 'required',
+					// 'gender'          => 'required',
+					// 'tenant_number'          => 'required',
+					// 'id_number'          => 'required',
 					'phone'          => 'required',
 					'email'          => 'required',
 
-					'country'          => 'required',
-					'state'          => 'required',
-					'city'          => 'required',
-					'postal_code'          => 'required',
+					// 'country'          => 'required',
+					// 'state'          => 'required',
+					// 'city'          => 'required',
+					// 'postal_code'          => 'required',
 
-					'emergency_contact_name'          => 'required',
-					'emergency_contact_phone'          => 'required',
-					'emergency_contact_email'          => 'required',
+					// 'emergency_contact_name'          => 'required',
+					// 'emergency_contact_phone'          => 'required',
+					// 'emergency_contact_email'          => 'required',
 
 					'created_by'=> '',
 					'updated_by'=> '',
@@ -64,12 +64,23 @@ public function rules()
 		case 'PATCH':
 			{
 				$rules = [
-					//  'agent_id' => 'exists:agents,id',
-					'name'          => 'required',
-					'date_of_birth'          => 'required',
-					'gender'          => 'required',
-					'tenant_number'          => 'required',
-					'phone'          => 'required',
+				//  'agent_id' => 'exists:agents,id',
+				'name'          => 'required',
+				// 'date_of_birth'          => 'required',
+				// 'gender'          => 'required',
+				// 'tenant_number'          => 'required',
+				// 'id_number'          => 'required',
+				'phone'          => 'required',
+				'email'          => 'required',
+
+				// 'country'          => 'required',
+				// 'state'          => 'required',
+				// 'city'          => 'required',
+				// 'postal_code'          => 'required',
+
+				// 'emergency_contact_name'          => 'required',
+				// 'emergency_contact_phone'          => 'required',
+				// 'emergency_contact_email'          => 'required',
 
 					'created_by'=> '',
 					'updated_by'=> '',
