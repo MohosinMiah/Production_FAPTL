@@ -61,7 +61,7 @@ class PropertyController extends ApiController
      */
     public function index()
     {
-        $data = DB::table('faptl_properties')->where( 'deleted_at' , '=', NULL )->get();
+        $data = DB::table('faptl_properties')->where( 'deleted_at' , '=', NULL )->orderBy('name', 'ASC')->get();
         return  PropertyResource::collection( $data );
 
     }

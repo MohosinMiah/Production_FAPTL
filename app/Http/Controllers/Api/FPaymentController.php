@@ -107,8 +107,7 @@ class FPaymentController extends ApiController
 	{
 		$save = $this->fPaymentRepository->update( $request->all(), $uuid );
 
-		
-			return $this->respondWithSuccess('Success !! FPayment has been updated.');
+		return $this->respondWithSuccess('Success !! FPayment has been updated.');
 		
 	}
 
@@ -148,87 +147,136 @@ class FPaymentController extends ApiController
 
 	public function filterPaymentList( Request $request)
 	{
+		
 		$payments = DB::table('faptl_payments')->select('*');
 
-		$property_id         =  $request->property_id;
-		if( !empty( $property_id ) || $property_id != NUll || $property_id != null || $property_id != '' )
+		$tenant_id = $request->tenant_id;
+		if( !empty( $tenant_id ) || $tenant_id != NUll  || $tenant_id != '' )
 		{
-			// $propertySql = ' property_id = ' . $property_id;
+			$payments->where( 'tenant_id', $tenant_id );
+		}
+
+
+
+		$property_id         =  $request->property_id;
+		if( !empty( $property_id ) || $property_id != NUll  || $property_id != '' )
+		{
 			$payments->where('property_id', $property_id);
 		}
-		$unit_id             =  $request->unit_id;
-		if( !empty( $unit_id ) || $unit_id != NUll || $unit_id != null || $unit_id != '' )
-		{
-			// $unitSql = ' AND unit_id = ' . $unit_id;
-			$payments->where('unit_id', $unit_id);
 
+
+
+
+		$unit_id             =  $request->unit_id;
+		if( !empty( $unit_id ) || $unit_id != NUll  || $unit_id != '' )
+		{
+			$payments->where('unit_id', $unit_id);
 		}
+
+
+
+
+		$status = $request->status;
+		if( !empty( $status ) || $status != NUll  || $status != '' )
+		{
+			$payments->where('status', $status);
+		}
+
+
 
 		$paymentStartDate     =  $request->paymentStartDate;
 		$paymentEndDate       =  $request->paymentEndDate;
 
-		// $paymentStartDate = Carbon::createFromFormat( 'Y-m-d', $paymentStartDate );
-        // $paymentEndDate = Carbon::createFromFormat( 'Y-m-d', $paymentEndDate );
-		// die( date('Y-m-d',Carbon::now()) );
 		if( !empty( $paymentStartDate ) || $paymentStartDate != NUll || $paymentStartDate != null || $paymentStartDate != '' )
 		{	
 			$payments->where('payment_date', '>=', $paymentStartDate);
 		}
 
+
 		if( !empty( $paymentEndDate ) || $paymentEndDate != NUll || $paymentEndDate != null || $paymentEndDate != '' )
 		{
 			$payments->where('payment_date', '<=', $paymentEndDate);
 		}
-		else
-		{
-			$payments->where('payment_date', '<=', date( 'Y-m-d', strtotime( Carbon::now() ) ));
-		}
+
 		$datas = $payments->get();
-		return FPaymentResource::collection( $datas );
+
+		return  FPaymentResource::collection( $datas );
 	}
 
-
-	// Get Total Payment Amount When Filter Payment
-	public function filterTotalPaymentAmount( Request $request)
+	// GET  Total Payment Amount When Filter Payment
+	public function filterTotalPaymentAmountGET(  )
 	{
 		$payments = DB::table('faptl_payments');
 
-		$property_id         =  $request->property_id;
-		if( !empty( $property_id ) || $property_id != NUll || $property_id != null || $property_id != '' )
+		$total_amount = $payments->sum( 'payment_amount' );
+
+		$datas = [
+			'total_amount' => $total_amount,
+		];
+		return $datas;
+	}
+
+
+	// POST Total Payment Amount When Filter Payment
+	public function filterTotalPaymentAmountPOST( Request $request )
+	{
+	
+		$payments = DB::table('faptl_payments');
+
+		$tenant_id = $request->tenant_id;
+		if( !empty( $tenant_id ) || $tenant_id != NUll  || $tenant_id != '' )
 		{
-			// $propertySql = ' property_id = ' . $property_id;
+			$payments->where( 'tenant_id', $tenant_id );
+		}
+
+
+
+		$property_id         =  $request->property_id;
+		if( !empty( $property_id ) || $property_id != NUll  || $property_id != '' )
+		{
 			$payments->where('property_id', $property_id);
 		}
-		$unit_id             =  $request->unit_id;
-		if( !empty( $unit_id ) || $unit_id != NUll || $unit_id != null || $unit_id != '' )
-		{
-			// $unitSql = ' AND unit_id = ' . $unit_id;
-			$payments->where('unit_id', $unit_id);
 
+
+
+
+		$unit_id             =  $request->unit_id;
+		if( !empty( $unit_id ) || $unit_id != NUll  || $unit_id != '' )
+		{
+			$payments->where('unit_id', $unit_id);
 		}
+
+
+
+
+		$status = $request->status;
+		if( !empty( $status ) || $status != NUll  || $status != '' )
+		{
+			$payments->where('status', $status);
+		}
+
+
 
 		$paymentStartDate     =  $request->paymentStartDate;
 		$paymentEndDate       =  $request->paymentEndDate;
 
-		// $paymentStartDate = Carbon::createFromFormat( 'Y-m-d', $paymentStartDate );
-        // $paymentEndDate = Carbon::createFromFormat( 'Y-m-d', $paymentEndDate );
-		// die( date('Y-m-d',Carbon::now()) );
 		if( !empty( $paymentStartDate ) || $paymentStartDate != NUll || $paymentStartDate != null || $paymentStartDate != '' )
 		{	
 			$payments->where('payment_date', '>=', $paymentStartDate);
 		}
 
+
 		if( !empty( $paymentEndDate ) || $paymentEndDate != NUll || $paymentEndDate != null || $paymentEndDate != '' )
 		{
 			$payments->where('payment_date', '<=', $paymentEndDate);
 		}
-		else
-		{
-			$payments->where('payment_date', '<=', date( 'Y-m-d', strtotime( Carbon::now() ) ));
-		}
+		
 		$total_amount = $payments->sum( 'payment_amount' );
-
-		return $total_amount;
+	
+		$datas = [
+			'total_amount' => $total_amount,
+		];
+		return $datas;
 	}
 
 
@@ -248,6 +296,64 @@ class FPaymentController extends ApiController
 		// return $this->fPaymentRepository->search($filter, ['extra_charges', 'units', 'late_fees', 'utility_costs', 'payment_methods']);
 		}
 	}
+
+
+
+	/**
+	 * @param Request $request
+	 * Payment List Filter By Status
+	 */
+
+	public function pendingPaymentList()
+	{
+		$data = DB::table('faptl_payments')->where( 'deleted_at' , '=', NULL )->where( 'status' , '=', 'PENDING' )->orderBy( 'payment_date', 'DESC' )->get();
+		return  FPaymentResource::collection( $data );
+	}
+
+
+	/**
+	 * @param Request $request
+	 * Payment List Filter By Status
+	 */
+
+	public function recordedPaymentList()
+	{
+		$data = DB::table('faptl_payments')->where( 'deleted_at' , '=', NULL )->where( 'status' , '=', 'RECORDED' )->orderBy( 'payment_date', 'DESC' )->get();
+		return  FPaymentResource::collection( $data );
+	}
+
+
+	/**
+	 * @param Request $request
+	 * Payment Status Changed Pending to Recorded
+	 */
+
+	public function statusRecorded( $payment_id )
+	{
+		DB::table('faptl_payments')->where( 'deleted_at' , '=', NULL )->where( 'id' , '=', $payment_id )->update([
+			'status' => 'RECORDED'
+		 ]);
+		
+		return $this->respondWithSuccess('Success !! FPayment Status has been updated.');
+	}
+
+
+	/**
+	 * @param Request $request
+	 * Payment Status Changed Recorded to Deposited
+	 */
+
+	public function statusDeposited( $payment_id )
+	{
+		DB::table('faptl_payments')->where( 'deleted_at' , '=', NULL )->where( 'id' , '=', $payment_id )->update([
+			'status' => 'DEPOSITED'
+		 ]);
+		
+		return $this->respondWithSuccess('Success !! FPayment Status has been updated.');
+	}
+
+	
+
 
 	/**
 	 * @param Request $request

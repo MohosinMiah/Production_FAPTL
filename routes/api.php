@@ -349,8 +349,17 @@ Route::prefix('v1')->middleware(['auth:api,landlords,tenants', 'throttle:60,1'])
  Route::apiResource( 'payments', FPaymentController::class )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
  Route::POST( 'payment/update/{id}', [ FPaymentController::class,'updatePayment' ] )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
  Route::POST( 'payments/search', [ FPaymentController::class,'filterPaymentList' ] )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
- Route::POST( 'payments/paidamount', [ FPaymentController::class,'filterTotalPaymentAmount' ] )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
+
+ Route::GET( 'payments/total_paidamount/all_get', [ FPaymentController::class,'filterTotalPaymentAmountGET' ] )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
+ Route::POST( 'payments/total_paidamount/all_post', [ FPaymentController::class,'filterTotalPaymentAmountPOST' ] )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
+
+ Route::GET( 'payments/list/pending', [ FPaymentController::class,'pendingPaymentList' ] )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
+ Route::GET( 'payments/list/recorded', [ FPaymentController::class,'recordedPaymentList' ] )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
+
+ Route::GET( 'payment/change/recorded/{id}', [ FPaymentController::class,'statusRecorded' ] )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
+ Route::GET( 'payment/change/deposited/{id}', [ FPaymentController::class,'statusDeposited' ] )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
  
+
 //  Get Property unit list based on property ID 
  Route::GET( 'payment/unit_list/property/{id}', [ FPaymentController::class,'getPropertyUnitsByPropertyID' ] )->middleware(['scope:view-property,create-property,edit-property,delete-property']);
  

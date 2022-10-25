@@ -39,7 +39,7 @@ class PropertyRequest extends BaseRequest
                       //  'agent_id' => 'exists:agents,id',
                         // 'code'          => 'required', // |unique:faptl_properties
                         'type'=> 'required', // e.g apartment, commercial, duplex, house, mixed_use, other
-                        'rent_amount'=> 'required',
+                        // 'rent_amount'=> 'required',
                         'size'=> 'required',
 
                         'created_by'=> '',
@@ -60,7 +60,7 @@ class PropertyRequest extends BaseRequest
                             //     $query->where('deleted_at', NULL);
                             // })],
                             'type'=> 'required', // e.g apartment, commercial, duplex, house, mixed_use, other
-                            'rent_amount'=> 'required',
+                            // 'rent_amount'=> 'required',
                             'size'=> 'required',                        
                             'created_by'=> '',
                             'updated_by'=> '',
